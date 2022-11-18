@@ -14,3 +14,13 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+textarea {
+    width: 500px; 
+    height: 150px;
+}
+
+#text_space {
+    display: flex;
+    flex-direction: column;
+}
