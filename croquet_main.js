@@ -8,13 +8,13 @@ class MyModel extends Croquet.Model {
         this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
         // Q: increase time to reduce MaxCallStack Exceeded errors? 
-        this.future(10000).update();
+        this.future(1000).update();
     }
 
     // Submits text 
     submitText() {
-        this.value = text_input.value; 
-        this.publish("textspace", "submit");
+        //this.value = text_input.value; 
+        this.publish("textspace", "changed");
     }
 
     resetCounter() {
@@ -31,7 +31,7 @@ class MyModel extends Croquet.Model {
     // my version of tick to update the textContent 
     update() {
         this.publish("textspace", "submit");
-        this.future(10000).update();
+        this.future(1000).update();
     }
 
 }
@@ -45,7 +45,7 @@ class MyView extends Croquet.View {
         this.model = model;
 
         submit_text.onclick = event => this.textSubmit();
-        this.subscribe("textsapce", "changed", this.textChanged);
+        this.subscribe("textspace", "changed", this.textChanged);
         this.textChanged();
 
         countDisplay.onclick = event => this.counterReset();
@@ -54,6 +54,7 @@ class MyView extends Croquet.View {
     }
 
     textSubmit() {
+        this.model.value = text_input.value;
         this.publish("textspace", "submit");
     }
 
