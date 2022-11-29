@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Escape Room</title>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="target-marker.js"></script>
+    <script src="packageTimer.js"></script>
+    <script type ="module">
+      
+        let pause = false; 
+        let alerts = false; 
+        let callPlayCounts = 0
+        let callResetCounts = 0
+        let callPauseCounts = 0
+        let callAlertCounts = 0
+
+        const countdownEl = document.querySelector("#countdownascene"); 
+        const countdownEl2 = document.querySelector("#package-timer"); 
+        const countdownEl3 = document.querySelector("#package-timer2"); 
+      
+        function countDownState(time, name) { 
+            let state = time
+            return function () { 
+                updateCountdown(state, name)
+                state--
+            }
+        }
+
+        let intervalID = setInterval(countDownState(600, "#countdownascene"), 1000);
+        let intervalID2 = setInterval(countDownState(1200, "#package-timer"), 1000);
+        let intervalID3 = setInterval(countDownState(900, "#package-timer2"), 1000);
+    
+
+
+        function updateCountdown(time, name) { 
+          const minutes = Math.floor(time / 60); 
+          let seconds = time % 60; 
+          seconds = seconds < 10 ? '0' + seconds : seconds; 
+          if (!pause) { 
+              time--; 
+          } else { 
+              time += 0
+          }
+
+          if (alerts && time == (startingMinutes * 30) - 2) { 
+              alert('Time remaining is ' + `${minutes + 1}:${seconds - 59}0`)
+          } else if (alerts && time == (startingMinutes * 15) - 2) { 
+              alert('Time remaining isrt ' + `${minutes}:${seconds +1}`)
+              let newText = document.querySelector(name)
+              newText.setAttribute("color", "red")
+          } else if (alerts && time == (startingMinutes * 45) - 2) { 
+              alert('Time remaining is ' + `${minutes}:${seconds +1}`)
+          } 
+
+          if (time == -2) { 
+              alert('Time is up!')
+              resetCountdown()
+              document.getElementById("ResetButton").style.backgroundColor = "#000";
+              document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
+          }
+
+          let newText = document.querySelector(name)
+          newText.setAttribute("value", `${minutes}: ${seconds}`);
+        }
+      
+
+        function updateCountdown2() { 
+          const minutes2 = Math.floor(time2 / 60); 
+          let seconds2 = time2 % 60; 
+          seconds2 = seconds2 < 10 ? '0' + seconds2 : seconds2; 
+          if (!pause) { 
+              time2--; 
+          } else { 
+              time2 += 0
+          }
+
+          if (alerts && time2 == (startingMinutes2 * 30) - 2) { 
+              alert('Time remaining is ' + `${minutes2 + 1}:${seconds2 - 59}0`)
+          } else if (alerts && time2 == (startingMinutes2 * 15) - 2) { 
+              alert('Time remaining isrt ' + `${minutes2}:${seconds2 +1}`)
+              let newText = document.querySelector("#countdownascene")
+              newText.setAttribute("color", "red")
+          } else if (alerts && time == (startingMinutes2 * 45) - 2) { 
+              alert('Time remaining is ' + `${minutes2}:${seconds2 +1}`)
+          } 
+
+          if (time2 == -2) { 
+              alert('Time is up!')
+              resetCountdown()
+              document.getElementById("ResetButton").style.backgroundColor = "#000";
+              document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
+          }
+          countdownEl2.setAttribute("value", `${minutes2}: ${seconds2}`);
+        }
+      
+        
+        
+    function resetCountdown() { 
+      let box = document.querySelector("#rB")
+      box.setAttribute("color", "red")
+      box.setAttribute("position", "-4 4.5 -6.25")
+      box.setAttribute("animation", "property: rotation; to: 360 0 0")
+      let rText = document.querySelector("#resetName")
+      rText.setAttribute("color", "white")
+      rText.setAttribute("position", "-4.35 4.50 -5.75")
+      document.querySelector("#rB").onclick = (event) => resetCountdown();
+      clearInterval(intervalID); 
+      intervalID = setInterval(countDownState(600, "#countdownascene"), 1000);
+    }
+      window.resetCountdown = resetCountdown;
+      
+      
+  
+function pauseCountdown() { 
+    let box = document.querySelector("#pauseButton")
+    box.setAttribute("color", "red")
+    
+    let rText = document.querySelector("#pauseName")
+    rText.setAttribute("color", "white")
+    box.setAttribute("position", "-2 4.5 -6.25")
+    box.setAttribute("animation", "property: rotation; to: 360 0 0")
+    rText.setAttribute("position", "-2.35, 4.50, -5.75")
+    pause = true
+    callPauseCounts += 1
+    if (callPauseCounts % 2 == 0) { 
+        document.getElementById("PauseButton").style.backgroundColor = "#000";
+    } else { 
+        document.getElementById("PauseButton").style.backgroundColor = "#089000";
+        document.getElementById("PauseButton").style.border = "groove #089000";
+    }
+}
+      window.pauseCountdown = pauseCountdown;
+
+function playCountdown() { 
+    let box = document.querySelector("#playButton")
+    box.setAttribute("color", "red")
+    let rText = document.querySelector("#playName")
+    rText.setAttribute("color", "white")
+    box.setAttribute("position", "0 4.5 -6.25")
+    box.setAttribute("animation", "property: rotation; to: 360 0 0")
+    rText.setAttribute("position", "-0.25, 4.50, -5.75")
+    pause = false
+    callPlayCounts = callPlayCounts + 1
+    if (callPlayCounts % 2 == 0) { 
+        document.getElementById("PlayButton").style.backgroundColor = "#000";
+    } else { 
+        document.getElementById("PlayButton").style.backgroundColor = "#089000";
+        document.getElementById("PlayButton").style.border = "groove #089000";
+    }
+}
+  window.playCountdown = playCountdown;
+      
+
+function alertCountdown() { 
+    let box = document.querySelector("#alertButton")
+    box.setAttribute("color", "red")
+    let rText = document.querySelector("#alertName")
+    rText.setAttribute("color", "white")
+    box.setAttribute("position", "2 4.5 -6.25")
+    box.setAttribute("animation", "property: rotation; to: 360 0 0")
+    rText.setAttribute("position", "1.70, 4.50, -5.75")
+    callAlertCounts += 1
+  
+    if (alerts) { 
+        alerts = false; 
+    } else { 
+        alerts = true
+        console.log("Alert successful")
+    }
+}
+      window.alertCountdown = alertCountdown;
+   
+      
+function teleport() { 
+  console.log("teleport")
+  let man = document.querySelector("#cam")
+  man.setAttribute("position", "8 2 0")
+}
+    window.teleport = teleport; 
+
+
+
+function setCountdown() { 
+    var response = prompt('Enter the time in minutes you wish to set the timer to')
+    time = response * 60
+    // Number.isInteger(response) ??
+    if (typeof response === 'integer') { 
+        alert('inside')
+        if (response > 0) { 
+            time = response * 60
+            alert('success!!!!')
+        }
+    }
+    let box = document.querySelector("#setButton")
+    box.setAttribute("color", "red")
+    box.setAttribute("animation", "property: rotation; to: 360 0 0")
+    let rText = document.querySelector("#setName")
+    rText.setAttribute("color", "white")
+    box.setAttribute("position", "4 4.5 -6.25")
+    rText.setAttribute("position", "3.75, 4.50, -5.75")
+}
+      window.setCountdown = setCountdown; 
+
+      
+function setSpecificCountdown() { 
+    var timerName = prompt('Which timer do you want to set?: '); 
+    let timerN = document.querySelector(timerName); 
+    console.log(timerN); 
+    var response = prompt('Enter the time in minutes you wish to set the timer to')
+    // time = response * 60
+    // Number.isInteger(response) ??
+    let newTime = parseInt(response)
+    console.log('inside'); 
+    if (newTime > 0) { 
+        timerN.setAttribute('time2', newTime); 
+        alert('success!!!!')
+    }
+    
+}
+      window.setSpecificCountdown = setSpecificCountdown; 
+
+      
+function clearCountdown() { 
+      let box = document.querySelector("#rB")
+      box.setAttribute("color", "white")
+      box.setAttribute("position", "-4 4.5 -6")
+      box.setAttribute("animation", "property: rotation; to: 0 0 0")
+      let rText = document.querySelector("#resetName")
+      rText.setAttribute("color", "black")
+      rText.setAttribute("position", "-4.35 4.50 -5.5")
+  
+      let box2 = document.querySelector("#pauseButton")
+      box2.setAttribute("color", "white")
+      box2.setAttribute("position", "-2 4.5 -6")
+      box2.setAttribute("animation", "property: rotation; to: 0 0 0")
+      let rText2 = document.querySelector("#pauseName")
+      rText2.setAttribute("color", "black")
+      rText2.setAttribute("position", "-2.35 4.50 -5.5")
+  
+      let box3 = document.querySelector("#playButton")
+      box3.setAttribute("color", "white")
+      box3.setAttribute("position", "0 4.5 -6")
+      box3.setAttribute("animation", "property: rotation; to: 0 0 0")
+      let rText3 = document.querySelector("#playName")
+      rText3.setAttribute("color", "black")
+      rText3.setAttribute("position", "-0.25 4.50 -5.5")
+  
+      let box4 = document.querySelector("#alertButton")
+      box4.setAttribute("color", "white")
+      box4.setAttribute("position", "2 4.5 -6")
+      box4.setAttribute("animation", "property: rotation; to: 0 0 0")
+      let rText4 = document.querySelector("#alertName")
+      rText4.setAttribute("color", "black")
+      rText4.setAttribute("position", "1.70 4.50 -5.5")
+  
+      let box5 = document.querySelector("#setButton")
+      box5.setAttribute("color", "white")
+      box5.setAttribute("position", "4 4.5 -6")
+      box5.setAttribute("animation", "property: rotation; to: 0 0 0")
+      let rText5 = document.querySelector("#setName")
+      rText5.setAttribute("color", "black")
+      rText5.setAttribute("position", "3.75 4.50 -5.5")
+}
+      window.clearCountdown = clearCountdown; 
+
+
+function hideTimer() { 
+      let newText = document.querySelector("#countdownascene")
+      newText.setAttribute("position", "3000 3000 3000")
+  
+      let box = document.querySelector("#rB")
+      box.setAttribute("position", "3000 3000 3000")
+      let rText = document.querySelector("#resetName")
+      rText.setAttribute("position", "3000 3000 3000")
+
+      let box2 = document.querySelector("#pauseButton")
+      box2.setAttribute("position", "3000 3000 3000")
+      let rText2 = document.querySelector("#pauseName")
+      rText2.setAttribute("position", "3000 3000 3000")
+  
+      let box3 = document.querySelector("#playButton")
+      box3.setAttribute("position", "3000 3000 3000")
+      let rText3 = document.querySelector("#playName")
+      rText3.setAttribute("position", "3000 3000 3000")
+  
+      let box4 = document.querySelector("#alertButton")
+      box4.setAttribute("position", "3000 3000 3000")
+      let rText4 = document.querySelector("#alertName")
+       rText4.setAttribute("position", "3000 3000 3000")
+  
+      let box5 = document.querySelector("#setButton")
+      box5.setAttribute("position", "3000 3000 3000")
+      let rText5 = document.querySelector("#setName")
+      rText5.setAttribute("position", "3000 3000 3000")
+  
+      let box6 = document.querySelector("#clearButton")
+      box6.setAttribute("position", "3000 3000 3000")
+      let rText6 = document.querySelector("#clearName")
+      rText6.setAttribute("position", "3000 3000 3000")
+}
+      window.hideTimer = hideTimer;
+
+      
+function setupInterface() { 
+    var hide = prompt('Do you wish to hide the original timer and its buttons?      Respond with only: y/n')
+    if (hide == 'y') { 
+      hideTimer(); 
+    }
+    var newObject = prompt('Do you want to create a new object to be the timer?        Respond with only: y/n')
+    if (newObject == 'y') { 
+      newObjectInterface();
+    }
+    var setNewTimer = prompt('Do you want to set a timer to a new time?       Respond with only: y/n')
+    if (setNewTimer == 'y') { 
+      setSpecificCountdown(); 
+    }
+}
+      window.setupInterface = setupInterface; 
+      
+      
+function newObjectInterface() { 
+    var createObject = prompt('What type of object do you want to create?            Respond with: a-____')
+    if (createObject != 'b') { 
+    
+    let scene = document.querySelector('a-scene'); 
+    let newMark = document.createElement('a-entity'); 
+    newMark.setAttribute('countdownascene', '');
+    scene.appendChild(newMark); 
+    // scene.setAttribute('countdownascene', '');
+
+      // let newMark = document.createElement('a-entity'); 
+      // newMark.setAttribute('geometry', createObject); 
+      
+      // newMark.setAttribute('geometry', { 
+      //   primitive: 'box'
+      // }); 
+//       var objScale = prompt('What scale'); 
+//       var objColor = prompt('What color');
+//       // newMark.setAttribute('color', 'purple');
+//       newMark.setAttribute('material', objColor); 
+//       newMark.setAttribute('scale', objScale); 
+//       newMark.setAttribute('position', '3 3 3'); 
+//       // add a console log to confirm that it is running
+//       console.log("New blue sphere works"); 
+
+//       scene.appendChild(newMark); 
+        
+    }
+    
+}
+      
+      
+      
+      
+    </script>
+</head>
+<body>
+   
+    <nav class="timer">
+        <p id="countdown">10: 00</p>
+    </nav>
+  
+  <div>
+      <a-scene background="color: #000000" cursor="rayOrigin: mouse">
+        <a-text id="package-timer" value="20:00" position="-3 1.5 -5" color="black" height="50px" width="50px" rotation="0 0 0"></a-text>
+        <a-text id="package-timer2" value="15:00" position="-8 3.5 -5" color="black" height="50px" width="50px" rotation="0 0 0"></a-text>
+        <a-text id="countdownascene" value="10:00" position="3 4 -5" color="green" height="50px" width="50px"></a-text>
+        <a-entity id="newtimer" timer></a-entity>
+        
+        
+        <a-box onclick="resetCountdown()" id="rB" position="-4 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="resetName" value="Reset" position="-4.35 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+        <a-box onclick="pauseCountdown()" id="pauseButton" position="-2 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="pauseName" value="Pause" position="-2.35 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+        <a-box onclick="playCountdown()" id ="playButton" position="0 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="playName" value="Play" position="-0.25 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+        <a-box onclick="alertCountdown()" id="alertButton" position="2 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="alertName" value="Alert" position="1.70 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+        <a-box onclick="setCountdown()" id="setButton" position="4 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="clearName" value="Clear" position="5.70 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+        <a-box onclick="clearCountdown()" id="clearButton" position="6 4.5 -6" animation="property: rotation; to: 540 0 0"></a-box>
+        <a-text id="setName" value="Set" position="3.75 4.50 -5.5" color="black" height="5px" width="5px" rotation="0 0 0"></a-text>
+    
+        <a-box position="10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
+        <a-box position="-10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
+        
+        <a-box position="0 1 -7" width="20" height="10" color="grey" timer></a-box>
+        <a-box position="0 1 5" width="20" height="10" color="grey" timer></a-box>
+        <a-box position="0 1 5" width="5" height="5" color="grey" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:2000; loop:true"></a-box>
+        <a-sphere position="-29 32 -35" radius="5.25" color="orange" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:1000; loop:true"></a-sphere>
+        <a-sphere onclick="teleport()" position="29 52 15" radius="17.25" color="#D23B05" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:3000; loop:true"></a-sphere>
+        <a-torus rotation="90 0 0" position="29 52 15" color="purple" arc="360" radius="22" radius-tubular="0.8" animation="property: rotation; to: 0 360 0 easing: linear; dur:20000; loop:true"></a-torus>
+        <a-torus rotation="90 0 0" position="-29 32 -35" color="#43A367" arc="360" radius="8" radius-tubular="0.3" animation="property: rotation; to: 0 360 0 easing: linear; dur:20000; loop:true"></a-torus>
+        <a-torus-knot rotation="90 0 0" roughness="9.2" position="69 72 -75" color="#1f1137" arc="180" p="8" q="7" radius="5" radius-tubular="0.1" animation="property: rotation; to: 0 0 360 easing: smooth; dur:2000; loop:true"></a-torus-knot>
+        <a-sphere onclick="teleport()" position="9 6 0" radius="0.5" color="red"></a-sphere>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="20" height="20" color="#311465"></a-plane>
+        <a-box onclick="setupInterface()" id="setupBox" position="-10 2 -2" width="5" height="5" color="pink"></a-box>
+        
+        
+        <a-text id="setupBox" value="Setup" position="-7.25 2 -1.6" color="red" height="6px" width="6px" rotation="0 90 0 "></a-text>
+      <a-entity id="rig"> 
+        <a-entity id="cam" camera position="0 2 0" look-controls wasd-controls>
+            <a-cursor id="cursor" raycaster fusetimeout="3000000"></a-cursor>
+        </a-entity>
+      </a-entity> 
+      <a-entity timer position="3 4 5" color="orange"></a-entity>
+        
+      </a-scene>
+  </div>
+  <button onclick="resetCountdown()" style="position: absolute;top:80%;left :10% ;" type="button" class="timer__buttons">Reset</button>
+  <button onclick="pauseCountdown()" style="position: absolute;top:80%;left :25% ;" type="button" class="timer__buttons">Pause</button>
+  <button onclick="playCountdown()" style="position: absolute;top:80%;left :40% ;" type="button" class="timer__buttons">Play</button>
+  <button onclick="alertCountdown()" style="position: absolute;top:80%;left :55% ;" type="button" class="timer__buttons">Alert</button>
+  <button onclick="setCountdown()" style="position: absolute;top:80%;left :70% ;" type="button" class="timer__buttons">Set</button>
+  <button onclick="clearCountdown()" style="position: absolute;top:80%;left :82.5% ;" type="button" class="timer__buttons">Clear</button>
+</body>
+</html>
