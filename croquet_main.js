@@ -1,9 +1,17 @@
 class MyModel extends Croquet.Model {
 
     init() {
+        // next steps: have them send in colors to update that model, specifically the view 
+        // that they see in A-frame world, so that the background color or something tangible actually changes. 
+        // think maybe like having a floating text editor in A-frame that when you type in red changes the whole space color 
+        // from black to red. 
+        // should contain background, timers, etc. Publish changes, update views.
+        // on the change we should re-render aframe.
         this.count = 0;
         // default value of the text area space
         this.value = "";
+        this.color = "black"; 
+        // this.subscribe("textspace", "newcolor", this.colorUpdate); 
         this.subscribe("counter", "reset", this.resetCounter);
         this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
@@ -15,8 +23,13 @@ class MyModel extends Croquet.Model {
     submitText(data) {
         //this.value = text_input.value; 
         this.value = data;
-        this.publish("textspace", "changed", text_input.value);
+        this.publish("textspace", "changed", text_input2.value);
     }
+
+    // colorUpdate(data) {
+    //     this.color = data; 
+    //     this.publish("textspace", "newcolor", text_input2.value); 
+    // }
 
     resetCounter() {
         this.count = 0;
@@ -45,32 +58,40 @@ class MyView extends Croquet.View {
         super(model);
         this.model = model;
 
-        submit_text.onclick = event => this.textSubmit();
+        textBox2.onclick = event => this.textSubmit();
         this.subscribe("textspace", "changed", this.textChanged);
         this.textChanged();
 
-        countDisplay.onclick = event => this.counterReset();
-        this.subscribe("counter", "changed", this.counterChanged);
-        this.counterChanged();
+        // countDisplay.onclick = event => this.counterReset();
+        // this.subscribe("counter", "changed", this.counterChanged);
+        // this.counterChanged();
+
+        // text_input2.onclick = event => this.updateColor(); 
+        // this.subscribe("textspace", "newcolor", this.updateColor);
+        // this.updateColor(); 
     }
 
     textSubmit() {
         // don't update model externally 
         // this.model.value = text_input.value;
-        this.publish("textspace", "submit", text_input.value);
+        this.publish("textspace", "submit", text_input2.value);
     }
 
+    // updateColor() {
+    //     overall_scene.color = this.model.color; 
+    // }
+
     textChanged() {
-        text_home.textContent = this.model.value; 
+        text_input2.textContent = this.model.value; 
     }
 
     counterReset() {
         this.publish("counter", "reset");
     }
 
-    counterChanged() {
-        countDisplay.textContent = this.model.count;
-    }
+    // counterChanged() {
+    //     countDisplay.textContent = this.model.count;
+    // }
 
 }
 
