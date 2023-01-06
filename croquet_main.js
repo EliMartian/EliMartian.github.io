@@ -1,14 +1,9 @@
 class MyModel extends Croquet.Model {
 
     init() {
-        // next steps: have them send in colors to update that model, specifically the view 
-        // that they see in A-frame world, so that the background color or something tangible actually changes. 
-        // think maybe like having a floating text editor in A-frame that when you type in red changes the whole space color 
-        // from black to red. 
         // should contain background, timers, etc. Publish changes, update views.
         // on the change we should re-render aframe.
-        this.count = 0;
-        // default value of the text area space
+        this.count = 1200;
         this.value = "";
         this.color = "black"; 
         // this.subscribe("textspace", "newcolor", this.colorUpdate); 
@@ -37,7 +32,7 @@ class MyModel extends Croquet.Model {
     }
 
     tick() {
-        this.count++;
+        this.count--;
         this.publish("counter", "changed");
         this.future(1000).tick();
     }
