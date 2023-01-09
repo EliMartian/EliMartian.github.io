@@ -5,13 +5,15 @@ class MyModel extends Croquet.Model {
         // on the change we should re-render aframe.
         this.count = 1200;
         this.value = "";
-        this.color = "black"; 
-        // this.subscribe("textspace", "newcolor", this.colorUpdate); 
+
+        // UNCOMMENT
+        // this.color = "black";
+        // this.subscribe("background", "change", this.colorUpdate); 
+
         this.subscribe("counter", "reset", this.resetCounter);
         this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
-        // Q: increase time to reduce MaxCallStack Exceeded errors? 
-        // this.future(1000).update();
+
     }
 
     // Submits text 
@@ -21,9 +23,11 @@ class MyModel extends Croquet.Model {
         this.publish("textspace", "changed", text_input2.value);
     }
 
+    // UNCOMMENT 
     // colorUpdate(data) {
-    //     this.color = data; 
-    //     this.publish("textspace", "newcolor", text_input2.value); 
+    //     let ascene = document.getElementById('overall_scene');
+    //     ascene.setAttribute("background", "color: " + data); 
+    //     this.publish("background", "newcolor", true_universe_color.value); 
     // }
 
     resetCounter() {
@@ -53,6 +57,7 @@ class MyView extends Croquet.View {
         super(model);
         this.model = model;
 
+
         textBox2.onclick = event => this.textSubmit();
         this.subscribe("textspace", "changed", this.textChanged);
         this.textChanged();
@@ -61,8 +66,9 @@ class MyView extends Croquet.View {
         // this.subscribe("counter", "changed", this.counterChanged);
         // this.counterChanged();
 
+        // UNCOMMENT
         // text_input2.onclick = event => this.updateColor(); 
-        // this.subscribe("textspace", "newcolor", this.updateColor);
+        // this.subscribe("background", "newcolor", this.updateColor);
         // this.updateColor(); 
     }
 
@@ -72,17 +78,18 @@ class MyView extends Croquet.View {
         this.publish("textspace", "submit", text_input2.value);
     }
 
+    // UNCOMMENT
     // updateColor() {
-    //     overall_scene.color = this.model.color; 
+    //     this.publish("background", "change", true_universe_color.value); 
     // }
 
     textChanged() {
         text_input2.textContent = this.model.value; 
     }
 
-    counterReset() {
-        this.publish("counter", "reset");
-    }
+    // counterReset() {
+    //     this.publish("counter", "reset");
+    // }
 
     // counterChanged() {
     //     countDisplay.textContent = this.model.count;
