@@ -6,9 +6,8 @@ class MyModel extends Croquet.Model {
         this.count = 1200;
         this.value = "";
 
-        // UNCOMMENT
-        // this.color = "black";
-        // this.subscribe("background", "change", this.colorUpdate); 
+        this.color = "black";
+        this.subscribe("background", "change", this.colorUpdate); 
 
         this.subscribe("counter", "reset", this.resetCounter);
         this.future(1000).tick();
@@ -22,13 +21,12 @@ class MyModel extends Croquet.Model {
         this.value = data;
         this.publish("textspace", "changed", text_input2.value);
     }
-
-    // UNCOMMENT 
-    // colorUpdate(data) {
-    //     let ascene = document.getElementById('overall_scene');
-    //     ascene.setAttribute("background", "color: " + data); 
-    //     this.publish("background", "newcolor", true_universe_color.value); 
-    // }
+ 
+    colorUpdate(data) {
+        let ascene = document.getElementById('overall_scene');
+        ascene.setAttribute("background", "color: " + data); 
+        this.publish("background", "newcolor", true_universe_color.value); 
+    }
 
     resetCounter() {
         this.count = 0;
@@ -66,9 +64,12 @@ class MyView extends Croquet.View {
         // this.subscribe("counter", "changed", this.counterChanged);
         // this.counterChanged();
 
-        // UNCOMMENT
-        // text_input2.onclick = event => this.updateColor(); 
-        // this.subscribe("background", "newcolor", this.updateColor);
+        // try console logging
+        // make sure the submit event is when the user clicks ok on the prompt
+
+        text_input2.onclick = event => this.updateColor(); 
+        console.log("ok this was submitted like forsuresies");
+        this.subscribe("background", "newcolor", this.updateColor);
         // this.updateColor(); 
     }
 
@@ -78,10 +79,11 @@ class MyView extends Croquet.View {
         this.publish("textspace", "submit", text_input2.value);
     }
 
-    // UNCOMMENT
-    // updateColor() {
-    //     this.publish("background", "change", true_universe_color.value); 
-    // }
+    updateColor() {
+        console.log("This true universe color:");
+        console.log(true_universe_color.getAttribute('value'));
+        this.publish("background", "change", true_universe_color.getAttribute('value')); 
+    }
 
     textChanged() {
         text_input2.textContent = this.model.value; 
