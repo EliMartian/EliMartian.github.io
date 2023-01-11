@@ -25,7 +25,7 @@ class MyModel extends Croquet.Model {
     colorUpdate(data) {
         let ascene = document.getElementById('overall_scene');
         ascene.setAttribute("background", "color: " + data); 
-        this.publish("background", "newcolor", true_universe_color.value); 
+        this.publish("background", "newcolor", true_universe_color.getAttribute('value')); 
     }
 
     resetCounter() {
@@ -68,9 +68,8 @@ class MyView extends Croquet.View {
         // make sure the submit event is when the user clicks ok on the prompt
 
         text_input2.onclick = event => this.updateColor(); 
-        console.log("ok this was submitted like forsuresies");
+        console.log("ok this was submitted");
         this.subscribe("background", "newcolor", this.updateColor);
-        // this.updateColor(); 
     }
 
     textSubmit() {
