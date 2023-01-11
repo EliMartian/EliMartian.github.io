@@ -25,7 +25,7 @@ class MyModel extends Croquet.Model {
     colorUpdate(data) {
         let ascene = document.getElementById('overall_scene');
         ascene.setAttribute("background", "color: " + data); 
-        this.publish("background", "newcolor", true_universe_color.getAttribute('value')); 
+        // this.publish("background", "newcolor", true_universe_color.getAttribute('value')); 
     }
 
     resetCounter() {
