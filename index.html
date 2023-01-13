@@ -11,8 +11,10 @@
     <script src="packageTimer.js"></script>
     <script src="https://unpkg.com/@croquet/croquet"></script>
     <script src="croquet_main.js"></script>
+    <h2> What's up guys</h2>
     <script type ="module">
       
+        
         let pause = false; 
         let alerts = false; 
         let callPlayCounts = 0
@@ -21,83 +23,88 @@
         let callAlertCounts = 0
 
         // const countdownEl = document.querySelector("#countdownascene"); 
-        const countdownEl2 = document.querySelector("#package-timer"); 
-        // const countdownEl3 = document.querySelector("#package-timer2"); 
-      
-        function countDownState(time, name) { 
-            let state = time
-            return function () { 
-                updateCountdown(state, name)
-                state--
-            }
-        }
 
-        // let intervalID = setInterval(countDownState(600, "#countdownascene"), 1000);
-        let intervalID2 = setInterval(countDownState(1200, "#package-timer"), 1000);
-        // let intervalID3 = setInterval(countDownState(900, "#package-timer2"), 1000);
+        // USED TO BE UNCOMMENTED
+        // const countdownEl2 = document.querySelector("#package-timer"); 
+        
+
+        // USED TO BE UNCOMMENTED
+        // function countDownState(time, name) { 
+        //     let state = time
+        //     return function () { 
+        //         updateCountdown(state, name)
+        //         state--
+        //     }
+        // }
+
+        
+        // USED TO BE UNCOMMENTED
+        // let intervalID2 = setInterval(countDownState(1200, "#package-timer"), 1000);
+        
     
 
 
-        function updateCountdown(time, name) { 
-          const minutes = Math.floor(time / 60); 
-          let seconds = time % 60; 
-          seconds = seconds < 10 ? '0' + seconds : seconds; 
-          if (!pause) { 
-              time--; 
-          } else { 
-              time += 0
-          }
+        // USED TO BE UNCOMMENTED
+        // function updateCountdown(time, name) { 
+        //   const minutes = Math.floor(time / 60); 
+        //   let seconds = time % 60; 
+        //   seconds = seconds < 10 ? '0' + seconds : seconds; 
+        //   if (!pause) { 
+        //       time--; 
+        //   } else { 
+        //       time += 0
+        //   }
 
-          if (alerts && time == (startingMinutes * 30) - 2) { 
-              alert('Time remaining is ' + `${minutes + 1}:${seconds - 59}0`)
-          } else if (alerts && time == (startingMinutes * 15) - 2) { 
-              alert('Time remaining isrt ' + `${minutes}:${seconds +1}`)
-              let newText = document.querySelector(name)
-              newText.setAttribute("color", "red")
-          } else if (alerts && time == (startingMinutes * 45) - 2) { 
-              alert('Time remaining is ' + `${minutes}:${seconds +1}`)
-          } 
+        //   if (alerts && time == (startingMinutes * 30) - 2) { 
+        //       alert('Time remaining is ' + `${minutes + 1}:${seconds - 59}0`)
+        //   } else if (alerts && time == (startingMinutes * 15) - 2) { 
+        //       alert('Time remaining isrt ' + `${minutes}:${seconds +1}`)
+        //       let newText = document.querySelector(name)
+        //       newText.setAttribute("color", "red")
+        //   } else if (alerts && time == (startingMinutes * 45) - 2) { 
+        //       alert('Time remaining is ' + `${minutes}:${seconds +1}`)
+        //   } 
 
-          if (time == -2) { 
-              alert('Time is up!')
-              resetCountdown()
-              document.getElementById("ResetButton").style.backgroundColor = "#000";
-              document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
-          }
+        //   if (time == -2) { 
+        //       alert('Time is up!')
+        //       resetCountdown()
+        //       document.getElementById("ResetButton").style.backgroundColor = "#000";
+        //       document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
+        //   }
 
-          let newText = document.querySelector(name)
-          newText.setAttribute("value", `${minutes}: ${seconds}`);
-        }
+        //   let newText = document.querySelector(name)
+        //   newText.setAttribute("value", `${minutes}: ${seconds}`);
+        // }
       
+        // USED TO BE UNCOMMENTED
+        // function updateCountdown2() { 
+        //   const minutes2 = Math.floor(time2 / 60); 
+        //   let seconds2 = time2 % 60; 
+        //   seconds2 = seconds2 < 10 ? '0' + seconds2 : seconds2; 
+        //   if (!pause) { 
+        //       time2--; 
+        //   } else { 
+        //       time2 += 0
+        //   }
 
-        function updateCountdown2() { 
-          const minutes2 = Math.floor(time2 / 60); 
-          let seconds2 = time2 % 60; 
-          seconds2 = seconds2 < 10 ? '0' + seconds2 : seconds2; 
-          if (!pause) { 
-              time2--; 
-          } else { 
-              time2 += 0
-          }
+        //   if (alerts && time2 == (startingMinutes2 * 30) - 2) { 
+        //       alert('Time remaining is ' + `${minutes2 + 1}:${seconds2 - 59}0`)
+        //   } else if (alerts && time2 == (startingMinutes2 * 15) - 2) { 
+        //       alert('Time remaining isrt ' + `${minutes2}:${seconds2 +1}`)
+        //       let newText = document.querySelector("#countdownascene")
+        //       newText.setAttribute("color", "red")
+        //   } else if (alerts && time == (startingMinutes2 * 45) - 2) { 
+        //       alert('Time remaining is ' + `${minutes2}:${seconds2 +1}`)
+        //   } 
 
-          if (alerts && time2 == (startingMinutes2 * 30) - 2) { 
-              alert('Time remaining is ' + `${minutes2 + 1}:${seconds2 - 59}0`)
-          } else if (alerts && time2 == (startingMinutes2 * 15) - 2) { 
-              alert('Time remaining isrt ' + `${minutes2}:${seconds2 +1}`)
-              let newText = document.querySelector("#countdownascene")
-              newText.setAttribute("color", "red")
-          } else if (alerts && time == (startingMinutes2 * 45) - 2) { 
-              alert('Time remaining is ' + `${minutes2}:${seconds2 +1}`)
-          } 
-
-          if (time2 == -2) { 
-              alert('Time is up!')
-              resetCountdown()
-              document.getElementById("ResetButton").style.backgroundColor = "#000";
-              document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
-          }
-          countdownEl2.setAttribute("value", `${minutes2}: ${seconds2}`);
-        }
+        //   if (time2 == -2) { 
+        //       alert('Time2 is up!')
+        //       resetCountdown()
+        //       document.getElementById("ResetButton").style.backgroundColor = "#000";
+        //       document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
+        //   }
+        //   countdownEl2.setAttribute("value", `${minutes2}: ${seconds2}`);
+        // }
       
         
         
@@ -356,26 +363,7 @@ function newObjectInterface() {
     let scene = document.querySelector('a-scene'); 
     let newMark = document.createElement('a-entity'); 
     newMark.setAttribute('countdownascene', '');
-    scene.appendChild(newMark); 
-    // scene.setAttribute('countdownascene', '');
-
-      // let newMark = document.createElement('a-entity'); 
-      // newMark.setAttribute('geometry', createObject); 
-      
-      // newMark.setAttribute('geometry', { 
-      //   primitive: 'box'
-      // }); 
-//       var objScale = prompt('What scale'); 
-//       var objColor = prompt('What color');
-//       // newMark.setAttribute('color', 'purple');
-//       newMark.setAttribute('material', objColor); 
-//       newMark.setAttribute('scale', objScale); 
-//       newMark.setAttribute('position', '3 3 3'); 
-//       // add a console log to confirm that it is running
-//       console.log("New blue sphere works"); 
-
-//       scene.appendChild(newMark); 
-        
+    scene.appendChild(newMark);         
     }
     
 }
@@ -388,14 +376,16 @@ function newObjectInterface() {
     </script>
 </head>
 <body>
+    <h2> hey dude</h2> 
    
     <nav class="timer">
         <p id="countdown">10: 00</p>
     </nav>
   
   <div>
+      <h2> No didfdf</h2>
       <a-scene id ="overall_scene" background="color: #000000" cursor="rayOrigin: mouse">
-        <a-text id="package-timer" value="20:00" position="-3 1.5 -5" color="black" height="50px" width="50px" rotation="0 0 0"></a-text>
+        <a-text id="package_timer" value="20:00" position="-3 1.5 -5" color="black" height="50px" width="50px" rotation="0 0 0"></a-text>
         <!-- <a-text id="package-timer2" value="15:00" position="-8 3.5 -5" color="black" height="10px" width="10px" rotation="0 0 0"></a-text>
         <a-text id="countdownascene" value="10:00" position="3 4 -5" color="green" height="10px" width="10px"></a-text> -->
         <a-text onclick="updateGameState()" id="truecolor" value="Type in a universe color here..." position="-7.25 3 3.5" color="white" height="6px" width="6px" rotation="0 90 0"></a-text>

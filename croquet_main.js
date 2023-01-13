@@ -4,15 +4,32 @@ class MyModel extends Croquet.Model {
         // should contain background, timers, etc. Publish changes, update views.
         // on the change we should re-render aframe.
         this.count = 1200;
+        this.keepCounting = true;
+        this.subscribe("timer", "changed", this.timerUpdate); 
+        this.future(1000).tick2();
+        
+
         this.value = "";
 
         this.color = "black";
         this.subscribe("background", "change", this.colorUpdate); 
 
         this.subscribe("counter", "reset", this.resetCounter);
-        this.future(1000).tick();
+        // this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
 
+    }
+
+    timerUpdate() {
+        if (this.count === 0) {
+            alert('time is up!')
+            this.keepCounting = false; 
+        }
+        let minutes = Math.floor(this.count / 60); 
+        let seconds = this.count % 60; 
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        let actualTimer = document.getElementById('package_timer');
+        actualTimer.setAttribute('value', `${minutes}: ${seconds}`);
     }
 
     // Submits text 
@@ -33,11 +50,21 @@ class MyModel extends Croquet.Model {
         this.publish("counter", "changed");
     }
 
-    tick() {
-        this.count--;
-        this.publish("counter", "changed");
-        this.future(1000).tick();
+    tick2() {
+        console.log("inside of tick 2");
+        console.log("Current count: " + this.count);
+        this.count--; 
+        this.publish("timer", "changed"); 
+        if (this.keepCounting) {
+            this.future(1000).tick2();
+        }
     }
+
+    // tick() {
+    //     this.count--;
+    //     this.publish("counter", "changed");
+    //     this.future(1000).tick();
+    // }
 
     // my version of tick to update the textContent 
     update() {
@@ -56,9 +83,11 @@ class MyView extends Croquet.View {
         this.model = model;
 
 
-        textBox2.onclick = event => this.textSubmit();
-        this.subscribe("textspace", "changed", this.textChanged);
-        this.textChanged();
+        // textBox2.onclick = event => this.textSubmit();
+        // this.subscribe("textspace", "changed", this.textChanged);
+        // this.textChanged();
+
+        this.subscribe("timer", "changed", this.timerChange); 
 
         // countDisplay.onclick = event => this.counterReset();
         // this.subscribe("counter", "changed", this.counterChanged);
@@ -72,10 +101,15 @@ class MyView extends Croquet.View {
         this.subscribe("background", "newcolor", this.updateColor);
     }
 
+    timerChange() {
+        // this.publish("timer", "changed", package_timer.getAttribute('value')); 
+        package_timer.textContent = this.model.count; 
+    }
+
     textSubmit() {
         // don't update model externally 
-        // this.model.value = text_input.value;
-        this.publish("textspace", "submit", text_input2.value);
+        
+        // this.publish("textspace", "submit", text_input2.value);
     }
 
     updateColor() {
@@ -84,9 +118,9 @@ class MyView extends Croquet.View {
         this.publish("background", "change", true_universe_color.getAttribute('value')); 
     }
 
-    textChanged() {
-        text_input2.textContent = this.model.value; 
-    }
+    // textChanged() {
+    //     text_input2.textContent = this.model.value; 
+    // }
 
     // counterReset() {
     //     this.publish("counter", "reset");
