@@ -8,6 +8,8 @@ class MyModel extends Croquet.Model {
         this.subscribe("timer", "changed", this.timerUpdate); 
         this.future(1000).tick2();
         
+        this.booleanGate = true;
+        this.subscribe("gate", "submit", this.gateUpdate);
 
         this.value = "";
 
@@ -18,6 +20,57 @@ class MyModel extends Croquet.Model {
         // this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
 
+    }
+
+    gateUpdate(data) {
+        // actually moves gate
+        console.log('data from bool gate: ');
+        console.log(data);
+
+        if (data != 'default') {
+            let boolgate = document.getElementById('boolgate');
+
+            let inputArray = data.split(' ');
+            let catchParen1 = inputArray[1].split('(')
+            inputArray[1] = catchParen1[1];
+            let catchParen2 = inputArray[3].split(')')
+            inputArray[3] = catchParen2[0]
+            console.log("length of input: " + inputArray.length)
+            // let openGate = true; 
+            for (let i = 0; i < inputArray.length; i++) {
+                console.log(inputArray[i])
+                if (i == 0 && inputArray[i] != 'if') {
+                    this.booleanGate = false; 
+                } else if (i == 1 && inputArray[i] != 'apples') {
+                    this.booleanGate = false; 
+                } else if (i == 2 && inputArray[i] != '>=') {
+                    this.booleanGate = false; 
+                } else if (i == 3 && inputArray[i] != '250') {
+                    this.booleanGate = false; 
+                } else if (i == 7 && inputArray[i] != 'else') {
+                    this.booleanGate = false; 
+                }
+            }
+            if (inputArray.length != 11) {
+                this.booleanGate = false; 
+            }
+            
+            console.log("ok about to see if bool gate should open, here's its value"); 
+            console.log(this.booleanGate)
+            if (this.booleanGate == true) {
+                boolgate.setAttribute('position', '0 -10 5')
+                let booleditor = document.getElementById('boolean_editor'); 
+                booleditor.setAttribute('position', '0 -10 5');
+                let boolsub = document.getElementById('boolean_submit'); 
+                boolsub.setAttribute('position', '0 -10 5');
+                let aapl = document.getElementById('apple'); 
+                aapl.setAttribute('position', '0 -10 5');
+                let booleocheck = document.getElementById('booleo_check'); 
+                booleocheck.setAttribute('position', '0 -10 5');
+                let blackback = document.getElementById('black_background'); 
+                blackback.setAttribute('position', '0 -10 5');
+            }
+        }
     }
 
     timerUpdate() {
@@ -51,8 +104,8 @@ class MyModel extends Croquet.Model {
     }
 
     tick2() {
-        console.log("inside of tick 2");
-        console.log("Current count: " + this.count);
+        // console.log("inside of tick 2");
+        // console.log("Current count: " + this.count);
         this.count--; 
         this.publish("timer", "changed"); 
         if (this.keepCounting) {
@@ -89,6 +142,10 @@ class MyView extends Croquet.View {
 
         this.subscribe("timer", "changed", this.timerChange); 
 
+        
+        boolean_submit.onclick = event => this.updateGate();
+        // this.subscribe("gate", "submit", this.updateGate);
+
         // countDisplay.onclick = event => this.counterReset();
         // this.subscribe("counter", "changed", this.counterChanged);
         // this.counterChanged();
@@ -99,6 +156,13 @@ class MyView extends Croquet.View {
         text_input2.onclick = event => this.updateColor(); 
         console.log("ok this was submitted");
         this.subscribe("background", "newcolor", this.updateColor);
+    }
+
+    updateGate() {
+        // have a reference to their input, by setting an a-text far away with that value
+        console.log("This is the input from boolean gate: "); 
+        console.log(boolGateInput.getAttribute('value'));
+        this.publish("gate", "submit", boolGateInput.getAttribute('value'));
     }
 
     timerChange() {

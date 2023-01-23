@@ -351,7 +351,46 @@ function setupInterface() {
 function checkBoolean() {
     alert('Make sure the response you submit contains no additional whitespace and is correctly formatted for best results'); 
     var userAttempt = prompt('Your Code:' );
+    let boolGateInput = document.getElementById('boolGateInput'); 
+    boolGateInput.setAttribute('value', userAttempt); 
+
+    // splitting happens within the Croquet file
+
+    // let inputArray = userAttempt.split(' ');
+    // let catchParen1 = inputArray[1].split('(')
+    // inputArray[1] = catchParen1[1];
+    // let catchParen2 = inputArray[3].split(')')
+    // inputArray[3] = catchParen2[0]
+    // console.log("length of input: " + inputArray.length)
+    // let openGate = true; 
+    // for (let i = 0; i < inputArray.length; i++) {
+    //     console.log(inputArray[i])
+    //     if (i == 0 && inputArray[i] != 'if') {
+    //         openGate = false; 
+    //     } else if (i == 1 && inputArray[i] != 'apples') {
+    //         openGate = false;
+    //     } else if (i == 2 && inputArray[i] != '>=') {
+    //         openGate = false;
+    //     } else if (i == 3 && inputArray[i] != '250') {
+    //         openGate = false;
+    //     } else if (i == 7 && inputArray[i] != 'else') {
+    //         openGate = false;
+    //     }
+    // }
+    // if (inputArray.length != 11) {
+    //     openGate = false;
+    // }
+    
+    // if (openGate == true) {
+    //     let gate = document.getElementById('boolgate');
+    //     gate.setAttribute('position', '0 -10 5')
+    // }
     // String parsing and validation will occur later
+    // split userAttempt, check to make sure its an if statement that contains the correct params
+
+    // create a boolean gate object that moves up or down depending on validation, possibly try to get synced using Croquet.js
+
+    // also get some sort of a decent text editor in there so that the students can type out their code correctly
 }
     window.checkBoolean = checkBoolean; 
       
@@ -395,11 +434,13 @@ function newObjectInterface() {
         <a-box position="0.5 5.5 4" height="0.75px" width="10px" color="orange"></a-box>
         <a-box position="5.25 3.5 4" height="7px" width="0.75" color="orange"></a-box>
         <a-box position="-4.25 3.5 4" height="7px" width="0.75" color="orange"></a-box>
-        <a-image position="2.5 2.5 4" rotation="0 180 0" height="3px" width="3px" src="apple.png"></a-image>
-        <a-box onclick="checkBoolean()"position="-1.5 2.5 4.75" height="3px" width="3px" color="white"></a-box>
-        <a-box position="-1.5 2.5 4.85" height="3.2px" width="3.2px" color="black"></a-box>
+        <a-image id="apple" position="2.5 2.5 4" rotation="0 180 0" height="3px" width="3px" src="apple.png"></a-image>
+        <a-box id="booleo_check" onclick="checkBoolean()"position="-1.5 2.5 4.75" height="3px" width="3px" color="white"></a-box>
+        <a-box id="black_background" position="-1.5 2.5 4.85" height="3.2px" width="3.2px" color="black"></a-box>
         <a-text id="true_universe_color" value="placeholder" position="5000 5000 5000" height="0.01px" height="0.01px"></a-text>
-        <a-text value="Your Code Goes Here:" position="-0.3 4.25 4.25" width="5px" height="5px" color="white" rotation="0 180 0"></a-text>
+        <a-text id="boolean_editor" value="Your Code Goes Here:" position="-0.3 4.25 4.25" width="5px" height="5px" color="white" rotation="0 180 0"></a-text>
+        <a-text id="boolean_submit" value="Submit your Code" position="-0.3 4.5 4.25" width="4px" height="4px" color="orange" rotation="0 180 0"></a-text>
+
         <a-torus rotation="90 0 0" position="5.25 6.75 4" color="red" arc="360" radius="0.4" radius-tubular="0.24" animation="property: rotation; to: 0 360 0 easing: linear; dur:20000; loop:true"></a-torus>
         <a-torus rotation="90 0 0" position="-4.25 6.75 4" color="red" arc="360" radius="0.4" radius-tubular="0.24" animation="property: rotation; to: 0 360 0 easing: linear; dur:20000; loop:true"></a-torus>
         <a-torus rotation="90 0 0" position="5.25 7.75 4" color="red" arc="360" radius="0.1" radius-tubular="0.04" animation="property: rotation; to: 0 360 0 easing: linear; dur:10000; loop:true"></a-torus>
@@ -422,7 +463,12 @@ function newObjectInterface() {
         <a-box position="-10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
         
         <a-box position="0 1 -7" width="20" height="10" color="grey" timer></a-box>
-        <a-box position="0 1 5" width="20" height="10" color="grey"></a-box>
+        <a-box id="boolgate" position="0 1 5" width="20" height="10" color="grey"></a-box>
+        <a-box position="-7 1 5" width="6" height="10" color="grey"></a-box>
+        <a-box position="8 1 5" width="6" height="10" color="grey"></a-box>
+        <a-text id="boolGateInput" value="default" position="50000 50000 50000"></a-text>
+
+
         <!-- <a-box position="0 1 5" width="5" height="5" color="grey" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:2000; loop:true"></a-box> -->
         <a-sphere position="-29 32 -35" radius="5.25" color="orange" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:1000; loop:true"></a-sphere>
         <a-sphere onclick="teleport()" position="29 52 15" radius="17.25" color="#D23B05" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:3000; loop:true"></a-sphere>
