@@ -7,6 +7,9 @@ class MyModel extends Croquet.Model {
         this.keepCounting = true;
         this.subscribe("timer", "changed", this.timerUpdate); 
         this.future(1000).tick2();
+
+        this.reload = false;
+        this.subscribe("universe", "reload", this.reloadRoom);
         
         this.booleanGate = true;
         this.subscribe("gate", "submit", this.gateUpdate);
@@ -22,6 +25,30 @@ class MyModel extends Croquet.Model {
 
     }
 
+    reloadRoom() {
+        this.count = 1201; 
+        this.keepCounting = true; 
+        this.booleanGate = true;
+        this.color = "black";
+        this.colorUpdate(this.color); 
+        this.resetGate(); 
+    }
+
+    resetGate() {
+        let boolgate = document.getElementById('boolgate');
+        boolgate.setAttribute('position', '0 1 5');
+        let booleditor = document.getElementById('boolean_editor'); 
+        booleditor.setAttribute('position', '-0.3 4.25 4.25');
+        let boolsub = document.getElementById('boolean_submit'); 
+        boolsub.setAttribute('position', '-0.3 4.5 4.25');
+        let aapl = document.getElementById('apple'); 
+        aapl.setAttribute('position', '2.5 2.5 4');
+        let booleocheck = document.getElementById('booleo_check'); 
+        booleocheck.setAttribute('position', '-1.5 2.5 4.75');
+        let blackback = document.getElementById('black_background'); 
+        blackback.setAttribute('position', '-1.5 2.5 4.85');
+    }
+
     gateUpdate(data) {
         // actually moves gate
         console.log('data from bool gate: ');
@@ -29,6 +56,7 @@ class MyModel extends Croquet.Model {
 
         if (data != 'default') {
             let boolgate = document.getElementById('boolgate');
+            this.booleanGate = true; 
 
             let inputArray = data.split(' ');
             let catchParen1 = inputArray[1].split('(')
@@ -74,10 +102,10 @@ class MyModel extends Croquet.Model {
     }
 
     timerUpdate() {
-        if (this.count === 0) {
-            alert('time is up!')
-            this.keepCounting = false; 
-        }
+        // if (this.count === 0) {
+        //     alert('time is up!')
+        //     this.keepCounting = false; 
+        // }
         let minutes = Math.floor(this.count / 60); 
         let seconds = this.count % 60; 
         seconds = seconds < 10 ? '0' + seconds : seconds;
@@ -142,6 +170,8 @@ class MyView extends Croquet.View {
 
         this.subscribe("timer", "changed", this.timerChange); 
 
+        rB.onclick = event => this.resetRoom();
+
         
         boolean_submit.onclick = event => this.updateGate();
         // this.subscribe("gate", "submit", this.updateGate);
@@ -154,8 +184,11 @@ class MyView extends Croquet.View {
         // make sure the submit event is when the user clicks ok on the prompt
 
         text_input2.onclick = event => this.updateColor(); 
-        console.log("ok this was submitted");
         this.subscribe("background", "newcolor", this.updateColor);
+    }
+
+    resetRoom() {
+        this.publish("universe", "reload")
     }
 
     updateGate() {
