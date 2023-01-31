@@ -10,102 +10,16 @@
     <script src="target-marker.js"></script>
     <script src="packageTimer.js"></script>
     <script src="https://unpkg.com/@croquet/croquet"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="croquet_main.js"></script>
     <script type ="module">
       
-        
         let pause = false; 
         let alerts = false; 
         let callPlayCounts = 0
         let callResetCounts = 0
         let callPauseCounts = 0
         let callAlertCounts = 0
-
-        // const countdownEl = document.querySelector("#countdownascene"); 
-
-        // USED TO BE UNCOMMENTED
-        // const countdownEl2 = document.querySelector("#package-timer"); 
-        
-
-        // USED TO BE UNCOMMENTED
-        // function countDownState(time, name) { 
-        //     let state = time
-        //     return function () { 
-        //         updateCountdown(state, name)
-        //         state--
-        //     }
-        // }
-
-        
-        // USED TO BE UNCOMMENTED
-        // let intervalID2 = setInterval(countDownState(1200, "#package-timer"), 1000);
-        
-    
-
-
-        // USED TO BE UNCOMMENTED
-        // function updateCountdown(time, name) { 
-        //   const minutes = Math.floor(time / 60); 
-        //   let seconds = time % 60; 
-        //   seconds = seconds < 10 ? '0' + seconds : seconds; 
-        //   if (!pause) { 
-        //       time--; 
-        //   } else { 
-        //       time += 0
-        //   }
-
-        //   if (alerts && time == (startingMinutes * 30) - 2) { 
-        //       alert('Time remaining is ' + `${minutes + 1}:${seconds - 59}0`)
-        //   } else if (alerts && time == (startingMinutes * 15) - 2) { 
-        //       alert('Time remaining isrt ' + `${minutes}:${seconds +1}`)
-        //       let newText = document.querySelector(name)
-        //       newText.setAttribute("color", "red")
-        //   } else if (alerts && time == (startingMinutes * 45) - 2) { 
-        //       alert('Time remaining is ' + `${minutes}:${seconds +1}`)
-        //   } 
-
-        //   if (time == -2) { 
-        //       alert('Time is up!')
-        //       resetCountdown()
-        //       document.getElementById("ResetButton").style.backgroundColor = "#000";
-        //       document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
-        //   }
-
-        //   let newText = document.querySelector(name)
-        //   newText.setAttribute("value", `${minutes}: ${seconds}`);
-        // }
-      
-        // USED TO BE UNCOMMENTED
-        // function updateCountdown2() { 
-        //   const minutes2 = Math.floor(time2 / 60); 
-        //   let seconds2 = time2 % 60; 
-        //   seconds2 = seconds2 < 10 ? '0' + seconds2 : seconds2; 
-        //   if (!pause) { 
-        //       time2--; 
-        //   } else { 
-        //       time2 += 0
-        //   }
-
-        //   if (alerts && time2 == (startingMinutes2 * 30) - 2) { 
-        //       alert('Time remaining is ' + `${minutes2 + 1}:${seconds2 - 59}0`)
-        //   } else if (alerts && time2 == (startingMinutes2 * 15) - 2) { 
-        //       alert('Time remaining isrt ' + `${minutes2}:${seconds2 +1}`)
-        //       let newText = document.querySelector("#countdownascene")
-        //       newText.setAttribute("color", "red")
-        //   } else if (alerts && time == (startingMinutes2 * 45) - 2) { 
-        //       alert('Time remaining is ' + `${minutes2}:${seconds2 +1}`)
-        //   } 
-
-        //   if (time2 == -2) { 
-        //       alert('Time2 is up!')
-        //       resetCountdown()
-        //       document.getElementById("ResetButton").style.backgroundColor = "#000";
-        //       document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
-        //   }
-        //   countdownEl2.setAttribute("value", `${minutes2}: ${seconds2}`);
-        // }
-      
-        
         
     function resetCountdown() { 
       let box = document.querySelector("#rB")
@@ -392,6 +306,38 @@ function checkBoolean() {
     // also get some sort of a decent text editor in there so that the students can type out their code correctly
 }
     window.checkBoolean = checkBoolean; 
+
+function startBooleanBelt() {
+    let man = document.querySelector("#cam")
+    let location1 = 1; 
+    let location2 = 0;
+    man.setAttribute("position", "0 2 1")
+    console.log("start moved")
+    let repeat = setInterval(function(e) {
+        console.log("location: " + location);
+        if (location1 != 2) {
+            console.log("belt is moving you");
+            location1 = location1 + 0.5; 
+            let man = document.querySelector("#cam");
+            man.setAttribute("position", "0 2 " + location1);
+            // console.log("updated location: " + location)
+            // let test = setTimeout(moveBooleanBelt(location), 2000); 
+        } else if (location2 != 2) { 
+            console.log("belt is moving you");
+            location2 = location2 + 0.5; 
+            let man = document.querySelector("#cam");
+            man.setAttribute("position", location2 + " 2 2" );
+        } else {
+            clearInterval(repeat);
+        }
+    }, 1000); 
+}
+    window.startBooleanBelt = startBooleanBelt; 
+
+function moveBooleanBelt(location) {
+    
+}
+    window.moveBooleanBelt = moveBooleanBelt;
       
       
 function newObjectInterface() { 
@@ -438,9 +384,12 @@ function newObjectInterface() {
         <a-box position="5.25 3.5 4" height="7px" width="0.75" color="orange"></a-box>
         <a-box position="-4.25 3.5 4" height="7px" width="0.75" color="orange"></a-box>
         <a-image id="apple" position="2.5 2.5 4" rotation="0 180 0" height="3px" width="3px" src="apple.png"></a-image>
+        
+        <a-text id="true_universe_color" value="placeholder" position="5000 5000 5000" height="0.01px" height="0.01px"></a-text>
+        
+        <!--Student Submitting Code Pieces-->
         <a-box id="booleo_check" onclick="checkBoolean()"position="-1.5 2.5 4.75" height="3px" width="3px" color="white"></a-box>
         <a-box id="black_background" position="-1.5 2.5 4.85" height="3.2px" width="3.2px" color="black"></a-box>
-        <a-text id="true_universe_color" value="placeholder" position="5000 5000 5000" height="0.01px" height="0.01px"></a-text>
         <a-text id="boolean_editor" value="Your Code Goes Here:" position="-0.3 4.25 4.25" width="5px" height="5px" color="white" rotation="0 180 0"></a-text>
         <a-text id="boolean_submit" value="Submit your Code" position="-0.3 4.5 4.25" width="4px" height="4px" color="orange" rotation="0 180 0"></a-text>
 
@@ -465,11 +414,33 @@ function newObjectInterface() {
         <a-box position="10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
         <a-box position="-10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
         
+        <!--Boolean Gate Objects-->
         <a-box position="0 1 -7" width="20" height="10" color="grey" timer></a-box>
         <a-box id="boolgate" position="0 1 5" width="20" height="10" color="grey"></a-box>
         <a-box position="-7 1 5" width="6" height="10" color="grey"></a-box>
         <a-box position="8 1 5" width="6" height="10" color="grey"></a-box>
         <a-text id="boolGateInput" value="default" position="50000 50000 50000"></a-text>
+
+        <!--For-Loop Stairs Objects-->
+
+        <!--Want to add a conveyor belt for IOS users to navigate the room-->
+        <a-entity onclick="startBooleanBelt()" geometry="primitive:box;" position="0 -0.375 1" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" onclick="startBooleanBelt()" position="1 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" onclick="startBooleanBelt()" position="2 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+
+        <a-box position="-7 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
+        <a-box position="8 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
+            <!--Student Submitting Code Pieces-->
+            <a-box id="booleo_check" onclick="checkBoolean()" position="7.5 3 28" rotation="0 90 0" height="3px" width="3px" color="white"></a-box>
+            <a-box id="black_background" position="7.75 3 28" rotation="0 90 0" height="3.2px" width="3.2px" color="black"></a-box>
+            <a-text id="boolean_editor" value="Your Code Goes Here:" position="7.25 5 27" width="5px" height="5px" color="white" rotation="0 270 0"></a-text>
+            <a-box id="loop_submit" position="7.25 0.75 28" color="red" height="0.5px" width="2px" depth="0.5px" rotation="0 90 0"></a-box>
+            <a-text id="boolean_submit" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
+        
+        <!--Phase 2 of Room-->
+        <a-plane position="0 10 70" rotation="180 0 0" width="150" height="25" color="#311465"></a-plane>
+
 
 
         <!-- <a-box position="0 1 5" width="5" height="5" color="grey" target-marker animation="property: rotation; to: 0 360 0 easing: smooth; dur:2000; loop:true"></a-box> -->
@@ -479,7 +450,7 @@ function newObjectInterface() {
         <a-torus rotation="90 0 0" position="-29 32 -35" color="#43A367" arc="360" radius="8" radius-tubular="0.3" animation="property: rotation; to: 0 360 0 easing: linear; dur:20000; loop:true"></a-torus>
         <a-torus-knot rotation="90 0 0" roughness="9.2" position="69 72 -75" color="#1f1137" arc="180" p="8" q="7" radius="5" radius-tubular="0.1" animation="property: rotation; to: 0 0 360 easing: smooth; dur:2000; loop:true"></a-torus-knot>
         <a-sphere onclick="teleport()" position="9 6 0" radius="0.5" color="red"></a-sphere>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="20" height="20" color="#311465"></a-plane>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="20" height="69" color="#311465"></a-plane>
         <a-box onclick="setupInterface()" id="setupBox" position="-10 2 -2" width="5" height="5" color="pink"></a-box>
         
         
