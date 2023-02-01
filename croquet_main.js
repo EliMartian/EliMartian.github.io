@@ -26,6 +26,8 @@ class MyModel extends Croquet.Model {
         this.playerPos = "0 3 0";
         this.subscribe("room", "playermoved", this.playerMove);
 
+        console.log("GITHUB VERSION NOT WORKING??? GITHUB WHY")
+
         let currPos = cam.getAttribute("position")
         console.log("Wokring currPos: ")
         console.log(currPos["x"])
