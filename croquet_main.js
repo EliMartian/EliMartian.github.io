@@ -27,6 +27,10 @@ class MyModel extends Croquet.Model {
         this.subscribe("room", "playermoved", this.playerMove);
 
         console.log("GITHUB VERSION NOT WORKING??? GITHUB WHY")
+        // try having a bunch of random player spheres, then have it choose one of the random ones 
+        // to indicate? 
+        // believe it's an issue with the shared sphere
+        // could also just will a new sphere into existence every time the player moves. 
 
         let currPos = cam.getAttribute("position")
         console.log("Wokring currPos: ")
@@ -47,7 +51,9 @@ class MyModel extends Croquet.Model {
         console.log(this.playerPos); 
 
         console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
-        playerlocation.setAttribute('position', "" + this.playerPos)
+        let rN = Math.floor((Math.random() * 10)); 
+        let pL = document.getElementById('playerlocation' + rN)
+        pL.setAttribute('position', "" + this.playerPos)
     }
 
     reloadRoom() {
