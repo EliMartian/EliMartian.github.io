@@ -55,6 +55,9 @@ class MyModel extends Croquet.Model {
         let strBuilder = 'playerlocation' + rN;
         let pL = document.getElementById(strBuilder);
         pL.setAttribute('position', this.playerPos)
+
+        let ascene = document.getElementById('overall_scene');
+        ascene.setAttribute("background", "color: " + pL.getAttribute("color")); 
     }
 
     reloadRoom() {
