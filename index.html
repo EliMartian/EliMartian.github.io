@@ -360,6 +360,9 @@ function startForBelt(location) {
     }, 1000); 
 }
     window.startForBelt = startForBelt;
+
+    // have a sneaky boy interval running in the background whose value is cam's x+y+z and when sneaky boys value changes 
+    // (which should be updated every second or so), then have that as the event changing. 
       
       
 function newObjectInterface() { 
@@ -435,6 +438,8 @@ function newObjectInterface() {
     
         <a-box position="10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
         <a-box position="-10 1 -6" width="22" height="10" rotation="0 90 0" color="grey" timer></a-box>
+
+        <a-sphere id="playerlocation" position="1000 10000 20000" radius="0.75" color="pink"></a-sphere>
         
         <!--Boolean Gate Objects-->
         <a-box position="0 1 -7" width="20" height="10" color="grey" timer></a-box>

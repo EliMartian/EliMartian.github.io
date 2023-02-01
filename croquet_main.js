@@ -23,6 +23,29 @@ class MyModel extends Croquet.Model {
         // this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
 
+        this.playerPos = "0 3 0";
+        this.subscribe("room", "playermoved", this.playerMove);
+
+        let currPos = cam.getAttribute("position")
+        console.log("Wokring currPos: ")
+        console.log(currPos["x"])
+        let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
+        console.log(stringCurrPos)
+        this.future(1000).tick3(stringCurrPos);
+
+    }
+
+    playerMove() { 
+        console.log("trying to move the players pink sphere")
+        console.log("here's the data")
+        let playerSphere = document.getElementById('playerlocation');
+
+        let currPos = this.playerPos; 
+        console.log("THIS IS THE PLAYER's POSITION")
+        console.log(this.playerPos); 
+
+        console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
+        playerlocation.setAttribute('position', "" + this.playerPos)
     }
 
     reloadRoom() {
@@ -102,10 +125,10 @@ class MyModel extends Croquet.Model {
     }
 
     timerUpdate() {
-        // if (this.count === 0) {
-        //     alert('time is up!')
-        //     this.keepCounting = false; 
-        // }
+        if (this.count === 0) {
+            // alert('time is up!')
+            this.keepCounting = false; 
+        }
         let minutes = Math.floor(this.count / 60); 
         let seconds = this.count % 60; 
         seconds = seconds < 10 ? '0' + seconds : seconds;
@@ -141,6 +164,20 @@ class MyModel extends Croquet.Model {
         }
     }
 
+    tick3(data) {
+        console.log("inside of tick3")
+        console.log(data); 
+        console.log(this.playerPos)
+        if (data != this.playerPos) {
+            this.playerPos = data; 
+            this.publish("room", "playermoved")
+            console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
+        }
+        let currPos = cam.getAttribute("position");
+        let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
+        this.future(1000).tick3(stringCurrPos)
+    }
+
     // tick() {
     //     this.count--;
     //     this.publish("counter", "changed");
@@ -168,9 +205,34 @@ class MyView extends Croquet.View {
         // this.subscribe("textspace", "changed", this.textChanged);
         // this.textChanged();
 
+        
+        // cam.addEventListener('componentchanged', function (evt) {
+        //     console.log("inside thec check")
+        //     if (evt.name === 'position') {
+        //         console.log("player moved")
+        //       // console.log('Entity has moved from', evt.oldData, 'to', evt.newData, '!');
+        //     }
+        //  });
+        //  console.log("Allegedly added the event listener");
+
+        // cam.onchange = event => this.movePlayer();
+        // let camLoc = cam.getAttribute("position") 
+        // let y_cor = camLoc["y"];
+        // console.log("Cam Loc: ")
+        
+        // console.log(camLoc["y"]);
+
+        // cam.onchange = event => this.movePlayer(); 
+    //    camLoc.addEventListener('change', this.movePlayer);
+
+        this.subscribe("room", "playermoved", this.movePlayer); 
+
+
         this.subscribe("timer", "changed", this.timerChange); 
 
-        rB.onclick = event => this.resetRoom();
+        // rB.onclick = event => this.resetRoom();
+
+        rB.addEventListener('click', this.resetRoom); 
 
         
         boolean_submit.onclick = event => this.updateGate();
@@ -185,6 +247,10 @@ class MyView extends Croquet.View {
 
         text_input2.onclick = event => this.updateColor(); 
         this.subscribe("background", "newcolor", this.updateColor);
+    }
+
+    movePlayer() { 
+        console.log("Finally got to Attempted to move the player")
     }
 
     resetRoom() {
