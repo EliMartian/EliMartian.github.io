@@ -52,7 +52,8 @@ class MyModel extends Croquet.Model {
 
         console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
         let rN = Math.floor((Math.random() * 10)); 
-        let pL = document.getElementById('playerlocation' + rN)
+        let strBuilder = 'playerlocation' + rN;
+        let pL = document.getElementById(strBuilder);
         pL.setAttribute('position', "" + this.playerPos)
     }
 
