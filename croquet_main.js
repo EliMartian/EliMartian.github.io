@@ -54,7 +54,7 @@ class MyModel extends Croquet.Model {
         let rN = Math.floor((Math.random() * 10)); 
         let strBuilder = 'playerlocation' + rN;
         let pL = document.getElementById(strBuilder);
-        pL.setAttribute('position', "" + this.playerPos)
+        pL.setAttribute('position', this.playerPos)
     }
 
     reloadRoom() {

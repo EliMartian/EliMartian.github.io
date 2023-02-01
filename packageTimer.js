@@ -43,7 +43,7 @@ AFRAME.registerComponent('timer', {
             } 
   
             if (time == -2) { 
-                alert('Time is up!')
+                // alert('Time is up!')
                 document.getElementById("ResetButton").style.backgroundColor = "#000";
                 document.getElementById("ResetButton").style.border = "groove rgb(128, 0, 128)";
             }
