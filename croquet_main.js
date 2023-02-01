@@ -239,9 +239,7 @@ class MyView extends Croquet.View {
 
         this.subscribe("timer", "changed", this.timerChange); 
 
-        // rB.onclick = event => this.resetRoom();
-
-        rB.addEventListener('click', this.resetRoom); 
+        rB.onclick = event => this.resetRoom();
 
         
         boolean_submit.onclick = event => this.updateGate();
@@ -275,7 +273,7 @@ class MyView extends Croquet.View {
 
     timerChange() {
         // this.publish("timer", "changed", package_timer.getAttribute('value')); 
-        package_timer.textContent = this.model.count; 
+        // package_timer.textContent = this.model.count; 
     }
 
     textSubmit() {
