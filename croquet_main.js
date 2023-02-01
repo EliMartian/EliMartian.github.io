@@ -29,8 +29,8 @@ class MyModel extends Croquet.Model {
         this.count = 1201; 
         this.keepCounting = true; 
         this.booleanGate = true;
-        this.color = "black";
-        this.colorUpdate(this.color); 
+        //this.color = "black";
+        this.colorUpdate("black"); 
         this.resetGate(); 
     }
 

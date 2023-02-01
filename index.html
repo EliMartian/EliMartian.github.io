@@ -334,10 +334,32 @@ function startBooleanBelt() {
 }
     window.startBooleanBelt = startBooleanBelt; 
 
-function moveBooleanBelt(location) {
-    
+function startForBelt(location) {
+    let man = document.querySelector("#cam")
+    let location1 = 6; 
+    let location2 = 0;
+    man.setAttribute("position", "0 2 6")
+    console.log("start moved")
+    let repeat = setInterval(function(e) {
+        console.log("location: " + location);
+        if (location1 != 27) {
+            console.log("belt is moving you");
+            location1 = location1 + 3; 
+            let man = document.querySelector("#cam");
+            man.setAttribute("position", "0 2 " + location1);
+            // console.log("updated location: " + location)
+            // let test = setTimeout(moveBooleanBelt(location), 2000); 
+        } else if (location2 != 2) { 
+            console.log("belt is moving you");
+            location2 = location2 + 0.5; 
+            let man = document.querySelector("#cam");
+            man.setAttribute("position", location2 + " 2 27" );
+        } else {
+            clearInterval(repeat);
+        }
+    }, 1000); 
 }
-    window.moveBooleanBelt = moveBooleanBelt;
+    window.startForBelt = startForBelt;
       
       
 function newObjectInterface() { 
@@ -423,11 +445,35 @@ function newObjectInterface() {
 
         <!--For-Loop Stairs Objects-->
 
-        <!--Want to add a conveyor belt for IOS users to navigate the room-->
+        <!--Boolean portion of Conveyor Belt-->
         <a-entity onclick="startBooleanBelt()" geometry="primitive:box;" position="0 -0.375 1" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
         <a-entity geometry="primitive:box;" position="0 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" onclick="startBooleanBelt()" position="1 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" onclick="startBooleanBelt()" position="2 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="1 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="2 -0.375 2" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+
+        <!--For-Loop portion of Conveyor Belt-->
+        <a-entity onclick="startForBelt()" geometry="primitive:box;" position="0 -0.375 6" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 7" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 8" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 9" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 10" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 11" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 12" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 13" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 14" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 15" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 16" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 17" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 18" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 19" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 20" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 21" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 22" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 23" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 24" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 25" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 26" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 27" rotation="0 0 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
 
         <a-box position="-7 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
         <a-box position="8 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
@@ -436,7 +482,7 @@ function newObjectInterface() {
             <a-box id="black_background" position="7.75 3 28" rotation="0 90 0" height="3.2px" width="3.2px" color="black"></a-box>
             <a-text id="boolean_editor" value="Your Code Goes Here:" position="7.25 5 27" width="5px" height="5px" color="white" rotation="0 270 0"></a-text>
             <a-box id="loop_submit" position="7.25 0.75 28" color="red" height="0.5px" width="2px" depth="0.5px" rotation="0 90 0"></a-box>
-            <a-text id="boolean_submit" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
+            <a-text id="boolean_submit2" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
         
         <!--Phase 2 of Room-->
         <a-plane position="0 10 70" rotation="180 0 0" width="150" height="25" color="#311465"></a-plane>
