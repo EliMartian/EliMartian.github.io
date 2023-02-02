@@ -342,18 +342,18 @@ function startForBelt(location) {
     console.log("start moved")
     let repeat = setInterval(function(e) {
         console.log("location: " + location);
-        if (location1 != 27) {
+        if (location1 != 26) {
             console.log("belt is moving you");
-            location1 = location1 + 3; 
+            location1 = location1 + 2; 
             let man = document.querySelector("#cam");
             man.setAttribute("position", "0 2 " + location1);
             // console.log("updated location: " + location)
             // let test = setTimeout(moveBooleanBelt(location), 2000); 
-        } else if (location2 != 2) { 
+        } else if (location2 != 5) { 
             console.log("belt is moving you");
             location2 = location2 + 0.5; 
             let man = document.querySelector("#cam");
-            man.setAttribute("position", location2 + " 2 27" );
+            man.setAttribute("position", location2 + " 2 26" );
         } else {
             clearInterval(repeat);
         }
@@ -485,10 +485,11 @@ function newObjectInterface() {
         <a-entity geometry="primitive:box;" position="0 -0.375 23" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
         <a-entity geometry="primitive:box;" position="0 -0.375 24" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
         <a-entity geometry="primitive:box;" position="0 -0.375 25" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" position="0 -0.375 26" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" position="0 -0.375 27" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" position="1 -0.375 27" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
-        <a-entity geometry="primitive:box;" position="2 -0.375 27" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="0 -0.375 26" rotation="0 90 0" material="shader:gif;src:url(https://art.pixilart.com/bbdb3819e845771.gif);color:white;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="1 -0.375 26" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="2 -0.375 26" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="3 -0.375 26" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
+        <a-entity geometry="primitive:box;" position="4 -0.375 26" rotation="0 0 0" material="color:orange;opacity:.8;"></a-entity>
 
         <a-box position="-7 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
         <a-box position="8 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
@@ -498,9 +499,10 @@ function newObjectInterface() {
             <a-text id="boolean_editor" value="Your Code Goes Here:" position="7.25 5 27" width="5px" height="5px" color="white" rotation="0 270 0"></a-text>
             <a-box id="loop_submit" position="7.25 0.75 28" color="red" height="0.5px" width="2px" depth="0.5px" rotation="0 90 0"></a-box>
             <a-text id="boolean_submit2" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
+            <a-image id="stairsprompt" position="7 3 24" rotation="0 270 0" height="3px" width="3px" src="stairs.png"></a-image>
         
         <!--Phase 2 of Room-->
-        <a-plane position="0 10 70" rotation="180 0 0" width="150" height="25" color="#311465"></a-plane>
+        <a-plane position="0 0 70" rotation="180 0 0" width="150" height="40" color="#311465"></a-plane>
 
 
 

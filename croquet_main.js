@@ -237,7 +237,7 @@ class MyView extends Croquet.View {
         // cam.onchange = event => this.movePlayer(); 
     //    camLoc.addEventListener('change', this.movePlayer);
 
-        this.subscribe("room", "playermoved", this.movePlayer); 
+        // this.subscribe("room", "playermoved", this.movePlayer); 
 
 
         this.subscribe("timer", "changed", this.timerChange); 
