@@ -14,6 +14,9 @@ class MyModel extends Croquet.Model {
         this.booleanGate = true;
         this.subscribe("gate", "submit", this.gateUpdate);
 
+        this.forStairs = true;
+        this.subscribe("stairs", "submit", this.stairsUpdate);
+
         this.value = "";
 
         this.color = "black";
@@ -26,31 +29,200 @@ class MyModel extends Croquet.Model {
         this.playerPos = "0 3 0";
         this.subscribe("room", "playermoved", this.playerMove);
 
-        console.log("GITHUB VERSION NOT WORKING??? GITHUB WHY")
+
         // try having a bunch of random player spheres, then have it choose one of the random ones 
         // to indicate? 
         // believe it's an issue with the shared sphere
         // could also just will a new sphere into existence every time the player moves. 
 
+        // test
         let currPos = cam.getAttribute("position")
-        console.log("Wokring currPos: ")
-        console.log(currPos["x"])
+        // console.log("Wokring currPos: ")
+        // console.log(currPos["x"])
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
-        console.log(stringCurrPos)
+        // console.log(stringCurrPos)
         this.future(1000).tick3(stringCurrPos);
 
     }
 
+    updatePlayerPosition(box) {
+        if (box.getAttribute('id') == "box1") {
+            console.log("box one was successful")
+            box.setAttribute("position", "0 10 40")
+            let stringCurrPos = "0 12 40"
+            let camera = document.getElementById("cam")
+            camera.setAttribute("position", stringCurrPos)
+        } else if (box.getAttribute('id') == "box2") {
+            console.log("box two was successful")
+            box.setAttribute("position", "0 20 50")
+            let stringCurrPos = "0 22 50"
+            let camera = document.getElementById("cam")
+            camera.setAttribute("position", stringCurrPos)
+        } else if (box.getAttribute('id') == "box3") {
+            console.log("box 3 was successful")
+            box.setAttribute("position", "0 30 60")
+            let stringCurrPos = "0 32 60"
+            let camera = document.getElementById("cam")
+            camera.setAttribute("position", stringCurrPos)
+        } else if (box.getAttribute('id') == "box4") {
+            console.log("box 4 was successful")
+            box.setAttribute("position", "0 40 70")
+            let stringCurrPos = "0 42 70"
+            let camera = document.getElementById("cam")
+            camera.setAttribute("position", stringCurrPos)
+        }
+        // console.log("BOX INCOMING")
+        // console.log(box)
+        // let boxVector = box.getAttribute("position")
+        // console.log("HERE IS BOX VECTOR")
+        // console.log(boxVector)
+        // for (int i = 0; i < 4; i++) { println("go stairs"); }
+        
+        // console.log(boxVector.getAttribute("x"))
+        // console.log(boxVector.getAttribute("y"))
+        // console.log(boxVector.getAttribute("z"))
+        // console.log(boxVector['x'])
+        // console.log(boxVector['y'])
+        // console.log(boxVector['z'])
+        // console.log(boxVector["x"])
+        // console.log(boxVector["y"])
+        // console.log(boxVector["z"])
+        // console.log(boxVector["x:"])
+        // console.log(boxVector["y:"])
+        // console.log(boxVector["z:"])
+        // console.log(boxVector['x:'])
+        // console.log(boxVector['y:'])
+        // console.log(boxVector['z:'])
+        
+    }
+
+    stairsUpdate(data) {
+        // actually creates stairs
+        console.log('data from for input: ');
+        console.log(data);
+
+        if (data != 'default') {
+            this.forStairs = true; 
+
+            let inputArray = data.split(' ');
+            console.log("INPUT ARRAY:")
+            console.log(inputArray);
+            let catchParen1 = inputArray[10].split('println("')
+            console.log(catchParen1[1])
+            inputArray[10] = catchParen1[1];
+            let catchParen2 = inputArray[11].split('");')
+            console.log(catchParen2)
+            inputArray[11] = catchParen2[0]
+            console.log("length of input: " + inputArray.length)
+            // let openGate = true; 
+            for (let i = 0; i < inputArray.length; i++) {
+                console.log(inputArray[i])
+                if (i == 0 && inputArray[i] != 'for') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 1 && inputArray[i] != '(int') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 2 && inputArray[i] != 'i') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 3 && inputArray[i] != '=') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 4 && inputArray[i] != '0;') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 5 && inputArray[i] != 'i') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 6 && inputArray[i] != '<') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 7 && inputArray[i] != '4;') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 8 && inputArray[i] != 'i++)') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 9 && inputArray[i] != '{') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 10 && inputArray[i] != 'go') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 11 && inputArray[i] != 'stairs') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 12 && inputArray[i] != '}') {
+                    this.forStairs = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                }
+            }
+            // for (int i = 0; i < 4; i++) { println("go stairs"); }
+            if (inputArray.length != 13) {
+                this.forStairs = false; 
+                console.log("THIS INDEX OF CHECK FAILED: length check")
+            }
+            
+            console.log("ok about to see if FOR STAIRS should open, here's its value"); 
+            console.log(this.forStairs)
+            if (this.forStairs == true) {
+                let ascene = document.getElementById('overall_scene');
+                // simple feature so that when clicked the user teleports directly on top of the block
+                // can expand to jumping function later
+                // also add in the capability to only have some of the boxes from for loop load later on
+
+                let box1 = document.createElement('a-box'); 
+                box1.setAttribute('color', 'grey');
+                box1.setAttribute('width', '5px');
+                box1.setAttribute('height', '5px');
+                box1.setAttribute('rotation', '90 0 0');
+                box1.setAttribute('id', 'box1');
+                box1.setAttribute('onclick', this.updatePlayerPosition(box1))
+
+                let box2 = document.createElement('a-box'); 
+                box2.setAttribute('color', 'grey');
+                box2.setAttribute('width', '5px');
+                box2.setAttribute('height', '5px');
+                box2.setAttribute('rotation', '90 0 0');
+                box2.setAttribute('id', 'box2');
+                box2.setAttribute('onclick', this.updatePlayerPosition(box2))
+
+                let box3 = document.createElement('a-box'); 
+                box3.setAttribute('color', 'grey');
+                box3.setAttribute('width', '5px');
+                box3.setAttribute('height', '5px');
+                box3.setAttribute('rotation', '90 0 0');
+                box3.setAttribute('id', 'box3');
+                box3.setAttribute('onclick', this.updatePlayerPosition(box3))
+
+                let box4 = document.createElement('a-box'); 
+                box4.setAttribute('color', 'grey');
+                box4.setAttribute('width', '5px');
+                box4.setAttribute('height', '5px');
+                box4.setAttribute('rotation', '90 0 0');
+                box4.setAttribute('id', 'box4');
+                box4.setAttribute('onclick', this.updatePlayerPosition(box4))
+
+
+                ascene.appendChild(box1);  
+                ascene.appendChild(box2);   
+                ascene.appendChild(box3);  
+                ascene.appendChild(box4);  
+            }
+        }
+    }
+
     playerMove() { 
-        console.log("trying to move the players pink sphere")
-        console.log("here's the data")
+        // console.log("trying to move the players pink sphere")
+        // console.log("here's the data")
         let playerSphere = document.getElementById('playerlocation');
 
         let currPos = this.playerPos; 
-        console.log("THIS IS THE PLAYER's POSITION")
-        console.log(this.playerPos); 
+        // console.log("THIS IS THE PLAYER's POSITION")
+        // console.log(this.playerPos); 
 
-        console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
+        // console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
         let rN = Math.floor((Math.random() * 10)); 
         let strBuilder = 'playerlocation' + rN;
         let pL = document.getElementById(strBuilder);
@@ -177,13 +349,13 @@ class MyModel extends Croquet.Model {
     }
 
     tick3(data) {
-        console.log("inside of tick3")
-        console.log(data); 
-        console.log(this.playerPos)
+        // console.log("inside of tick3")
+        // console.log(data); 
+        // console.log(this.playerPos)
         if (data != this.playerPos) {
             this.playerPos = data; 
             this.publish("room", "playermoved")
-            console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
+            // console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
         }
         let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
@@ -246,6 +418,9 @@ class MyView extends Croquet.View {
 
         
         boolean_submit.onclick = event => this.updateGate();
+
+        for_submit.onclick = event => this.updateStairs();
+        loop_submit.onclick = event => this.updateStairs();
         // this.subscribe("gate", "submit", this.updateGate);
 
         // countDisplay.onclick = event => this.counterReset();
@@ -265,6 +440,10 @@ class MyView extends Croquet.View {
 
     resetRoom() {
         this.publish("universe", "reload")
+    }
+
+    updateStairs() {
+        this.publish("stairs", "submit", forLoopInput.getAttribute('value'));
     }
 
     updateGate() {

@@ -10,6 +10,9 @@ import sys
 
 cipher1 = 111100001111000011110000111100001111000011110000
 
+def XOR(x, y, z):
+  return int(int(x) ^ int(y) ^ int(z))
+
 def PadOracle(ciphertext):
   if len(ciphertext) < 32 or len(ciphertext) % 16 != 0:
     return False
@@ -37,9 +40,51 @@ if len(sys.argv) < 1:
 ciphertext = None
 with open(sys.argv[1], "rb") as ciphertext_file:
   ciphertext = ciphertext_file.read()
-  print("Hey this actually works wow")
 
-PadOracle(cipher1)
+
+testCiphertext = ciphertext
+intList = [int(t) for t in testCiphertext]
+intermediateList = [0] * len(intList)
+
+# q loops through all of the 16-byte blocks until reaching the end of the ciphertext blocks
+for q in range(1, int(((len(intList) - 16) / 16)) + 1):
+  # j loops through each individual byte of the overall 16-byte ciphertext block
+  for j in range(1, 17): 
+    X = -1
+    setter = 0
+    # testing each possible value 
+    for i in range(0, 256): 
+      X += 1
+      
+      # making sure to assign the value of the current ciphertext byte to be X 
+      intList[len(intList)-(16*q)-j] = X
+
+      # capturing value returned by padding oracle
+      value = PadOracle(bytes(intList))
+      if (i == 255 and value == False):
+        print("No value found")
+      if (value == True):
+        # updating the intermediate list block to be the true value of X (XORed with j)
+        intermediateList[len(intList)-(16*q)-j] = (intList[len(intList)-(16*q)-j] ^ j)
+  
+        # loops backwards to set all the previous ciphertext bytes to the right value
+        # so that when we are experimenting on the current byte, everybody before it 
+        # aligns correctly to make a valid padding so we can figure out what the 
+        # current byte should be set to (testing what is valid padding)
+        for f in range(0, j):
+          setter = (intList[len(intList)-(16*q)-j+f] ^ j) ^ (j+1)
+          intList[len(intList)-(16*q)-j+f] = setter
+        value = False
+        break
+      
+
+  # This has been one of the hardest coding assignments I have ever done in my entire life and 4 years at UW :(
+
+  print("starting analysis of intermediate data")
+  for z in range(1, 17):
+      print(intermediateList[len(intList)-(16*q)-z])
+  #print(len(intList))
+
 # Please put the padding oracle attack here.
 # The variable "ciphertext" contains the ciphertext.
 # The plaintexts in the two example ciphertexts are English text in UTF-8.

@@ -265,45 +265,7 @@ function checkBoolean() {
     alert('Make sure the response you submit contains no additional whitespace and is correctly formatted for best results'); 
     var userAttempt = prompt('Your Code:' );
     let boolGateInput = document.getElementById('boolGateInput'); 
-    boolGateInput.setAttribute('value', userAttempt); 
-
-    // splitting happens within the Croquet file
-
-    // let inputArray = userAttempt.split(' ');
-    // let catchParen1 = inputArray[1].split('(')
-    // inputArray[1] = catchParen1[1];
-    // let catchParen2 = inputArray[3].split(')')
-    // inputArray[3] = catchParen2[0]
-    // console.log("length of input: " + inputArray.length)
-    // let openGate = true; 
-    // for (let i = 0; i < inputArray.length; i++) {
-    //     console.log(inputArray[i])
-    //     if (i == 0 && inputArray[i] != 'if') {
-    //         openGate = false; 
-    //     } else if (i == 1 && inputArray[i] != 'apples') {
-    //         openGate = false;
-    //     } else if (i == 2 && inputArray[i] != '>=') {
-    //         openGate = false;
-    //     } else if (i == 3 && inputArray[i] != '250') {
-    //         openGate = false;
-    //     } else if (i == 7 && inputArray[i] != 'else') {
-    //         openGate = false;
-    //     }
-    // }
-    // if (inputArray.length != 11) {
-    //     openGate = false;
-    // }
-    
-    // if (openGate == true) {
-    //     let gate = document.getElementById('boolgate');
-    //     gate.setAttribute('position', '0 -10 5')
-    // }
-    // String parsing and validation will occur later
-    // split userAttempt, check to make sure its an if statement that contains the correct params
-
-    // create a boolean gate object that moves up or down depending on validation, possibly try to get synced using Croquet.js
-
-    // also get some sort of a decent text editor in there so that the students can type out their code correctly
+    boolGateInput.setAttribute('value', userAttempt);
 }
     window.checkBoolean = checkBoolean; 
 
@@ -333,6 +295,14 @@ function startBooleanBelt() {
     }, 1000); 
 }
     window.startBooleanBelt = startBooleanBelt; 
+
+function checkForLoop() {
+    alert('Make sure the response you submit contains no additional whitespace and is correctly formatted for best results'); 
+    var userAttempt = prompt('Your Code:' );
+    let forLoopInput = document.getElementById('forLoopInput'); 
+    forLoopInput.setAttribute('value', userAttempt);
+}
+window.checkForLoop = checkForLoop; 
 
 function startForBelt(location) {
     let man = document.querySelector("#cam")
@@ -494,12 +464,13 @@ function newObjectInterface() {
         <a-box position="-7 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
         <a-box position="8 1 18" rotation="0 90 0" color="grey" width="25" height="10"></a-box>
             <!--Student Submitting Code Pieces-->
-            <a-box id="booleo_check" onclick="checkBoolean()" position="7.5 3 28" rotation="0 90 0" height="3px" width="3px" color="white"></a-box>
+            <a-box id="booleo_check" onclick="checkForLoop()" position="7.5 3 28" rotation="0 90 0" height="3px" width="3px" color="white"></a-box>
             <a-box id="black_background" position="7.75 3 28" rotation="0 90 0" height="3.2px" width="3.2px" color="black"></a-box>
             <a-text id="boolean_editor" value="Your Code Goes Here:" position="7.25 5 27" width="5px" height="5px" color="white" rotation="0 270 0"></a-text>
             <a-box id="loop_submit" position="7.25 0.75 28" color="red" height="0.5px" width="2px" depth="0.5px" rotation="0 90 0"></a-box>
-            <a-text id="boolean_submit2" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
+            <a-text id="for_submit" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
             <a-image id="stairsprompt" position="7 3 24" rotation="0 270 0" height="3px" width="3px" src="stairs.png"></a-image>
+            <a-text id="forLoopInput" value="default" position="49000 49000 49000"></a-text>
         
         <!--Phase 2 of Room-->
         <a-plane position="0 0 70" rotation="180 0 0" width="150" height="40" color="#311465"></a-plane>
