@@ -296,6 +296,89 @@ function startBooleanBelt() {
 }
     window.startBooleanBelt = startBooleanBelt; 
 
+function stairTele0() {
+    let stair0 = document.getElementById('stair0');
+    let st0pos = stair0.getAttribute("rotation"); 
+    let st0builder = "";
+    st0builder += (st0pos.x + " " + st0pos.y + " " + st0pos.z);
+    if (st0builder === "90 0 0") {
+        stair0.setAttribute("animation", "property: rotation; to: 90 45 0")
+    } else {
+        stair0.setAttribute("animation", "property: rotation; to: 90 0 0")
+    }
+    let stringCurrPos = "0 2 30";
+    let camera = document.getElementById("cam");
+    camera.setAttribute("position", stringCurrPos);
+}
+    window.stairTele0 = stairTele0;
+
+function stairTele1() {
+    let stair1 = document.getElementById('stair1');
+    let st1pos = stair1.getAttribute("rotation"); 
+    let st1builder = "";
+    st1builder += (st1pos.x + " " + st1pos.y + " " + st1pos.z);
+    if (st1builder === "90 0 0") {
+        stair1.setAttribute("animation", "property: rotation; to: 90 45 0")
+    } else {
+        stair1.setAttribute("animation", "property: rotation; to: 90 0 0")
+    }
+    let stringCurrPos = "0 12 40"
+    let camera = document.getElementById("cam")
+    camera.setAttribute("position", stringCurrPos)
+}
+    window.stairTele1 = stairTele1;
+
+function stairTele2() {
+    let stair2 = document.getElementById('stair2');
+    let st2pos = stair2.getAttribute("rotation"); 
+    let st2builder = "";
+    st2builder += (st2pos.x + " " + st2pos.y + " " + st2pos.z);
+    if (st2builder === "90 0 0") {
+        stair2.setAttribute("animation", "property: rotation; to: 90 45 0")
+    } else {
+        stair2.setAttribute("animation", "property: rotation; to: 90 0 0")
+    }
+    stair2.setAttribute("animation", "property: rotation; to: 90 45 0")
+    let stringCurrPos = "0 22 50"
+    let camera = document.getElementById("cam")
+    camera.setAttribute("position", stringCurrPos)
+}
+    window.stairTele2 = stairTele2;
+
+function stairTele3() {
+    let stringCurrPos = "0 32 60"
+    let stair3 = document.getElementById('stair3');
+    let st3pos = stair3.getAttribute("rotation"); 
+    let st3builder = "";
+    st3builder += (st3pos.x + " " + st3pos.y + " " + st3pos.z);
+    if (st3builder === "90 0 0") {
+        stair3.setAttribute("animation", "property: rotation; to: 90 45 0")
+    } else {
+        stair3.setAttribute("animation", "property: rotation; to: 90 0 0")
+    }
+    let camera = document.getElementById("cam")
+    camera.setAttribute("position", stringCurrPos)
+}
+    window.stairTele3 = stairTele3;
+
+function stairTele4() {
+    let stair4 = document.getElementById('stair4');
+    let st4pos = stair4.getAttribute("rotation"); 
+    let st4builder = "";
+    st4builder += (st4pos.x + " " + st4pos.y + " " + st4pos.z);
+    if (st4builder === "90 0 0") {
+        stair4.setAttribute("animation", "property: rotation; to: 90 45 0")
+    } else {
+        stair4.setAttribute("animation", "property: rotation; to: 90 0 0")
+    }
+    let stringCurrPos = "0 42 70"
+    let camera = document.getElementById("cam")
+    camera.setAttribute("position", stringCurrPos)
+}
+    window.stairTele4 = stairTele4;
+
+
+
 function checkForLoop() {
     alert('Make sure the response you submit contains no additional whitespace and is correctly formatted for best results'); 
     var userAttempt = prompt('Your Code:' );
@@ -369,8 +452,6 @@ function newObjectInterface() {
   <div>
       <a-scene id ="overall_scene" background="color: #000000" cursor="rayOrigin: mouse">
         <a-text id="package_timer" value="20:00" position="-3 1.5 -5" color="black" height="50px" width="50px" rotation="0 0 0"></a-text>
-        <!-- <a-text id="package-timer2" value="15:00" position="-8 3.5 -5" color="black" height="10px" width="10px" rotation="0 0 0"></a-text>
-        <a-text id="countdownascene" value="10:00" position="3 4 -5" color="green" height="10px" width="10px"></a-text> -->
         <a-text onclick="updateGameState()" id="truecolor" value="Type in a universe color here..." position="-7.25 3 3.5" color="white" height="6px" width="6px" rotation="0 90 0"></a-text>
         <a-text id="text_input2" value="Submit Color" position="-7.25 2 3.5" color="white" height="6px" width="6px" rotation="0 90 0"></a-text>
         <a-box onclick="updateGameState()" id="textBox2" position="-8.5 2 1.7" width="5" height="5" color="blue" rotation="0 90 0"></a-box>
@@ -471,9 +552,33 @@ function newObjectInterface() {
             <a-text id="for_submit" value="Submit your Code" position="7 0.75 27.3" width="4px" height="4px" color="white" rotation="0 270 0"></a-text>
             <a-image id="stairsprompt" position="7 3 24" rotation="0 270 0" height="3px" width="3px" src="stairs.png"></a-image>
             <a-text id="forLoopInput" value="default" position="49000 49000 49000"></a-text>
+
+            <!-- Hidden For Stairs Until Successful Completion of Challenge -->
+            <a-box onclick="stairTele0()" id="stair0" color="grey" position="3000 -2000 4000" width="5px" height="5px" rotation="90 0 0"></a-box>
+            <a-box onclick="stairTele1()" id="stair1" color="grey" position="3000 -2000 4000" width="5px" height="5px" rotation="90 0 0"></a-box>
+            <a-box onclick="stairTele2()" id="stair2" color="grey" position="3000 -2000 4000" width="5px" height="5px" rotation="90 0 0"></a-box>
+            <a-box onclick="stairTele3()" id="stair3" color="grey" position="3001 -2000 4002" width="5px" height="5px" rotation="90 0 0"></a-box>
+            <a-box onclick="stairTele4()" id="stair4" color="grey" position="3002 -2000 4003" width="5px" height="5px" rotation="90 0 0"></a-box>
         
         <!--Phase 2 of Room-->
-        <a-plane position="0 0 70" rotation="180 0 0" width="150" height="40" color="#311465"></a-plane>
+        <!--
+            * Have a reset button on the stairs so that all the stairs get yoinked back and for-stairs croquet state is 
+            set back to false
+            * Attempt to get the text editor working... look into A-frame website's use of CSS and <aside> tags
+            Have a player tracking function that continuously runs in the background, monitor them 
+            so that if they go outside of the grey walls of the room, it resets them back inside of the room. Can't block them 
+            from traveling through the wall, but will keep them from going too far out of bounds.
+            * Better code validation for users, or making prompts / spacing issues more clear
+            * Could add a help button that brings down a png of code quality validation standards for them to reference if stuck
+            * Make for-loop challenge prompt less vague, very specific from 0 to 4, increasing loop variable. No extra spaces anywhere
+            * Need walls around Phase 2 room floor
+            * Need to scale the floor down so that it supports the third Bridge challenge
+            * Build out third Bridge challenge prompt in Overleaf
+            * Build a sign-post with a brown cylinder stick base and a .png img for the third challenge prompt
+        -->
+        <a-plane position="0 1 73" rotation="180 0 0" width="130" height="79" color="#311465"></a-plane>
+        <a-plane position="10 40.6 112" rotation="-90 0 0" width="150" height="79" color="#311465"></a-plane>
+
 
 
 

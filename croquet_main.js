@@ -11,10 +11,10 @@ class MyModel extends Croquet.Model {
         this.reload = false;
         this.subscribe("universe", "reload", this.reloadRoom);
         
-        this.booleanGate = true;
+        this.booleanGate = false;
         this.subscribe("gate", "submit", this.gateUpdate);
 
-        this.forStairs = true;
+        this.forStairs = false;
         this.subscribe("stairs", "submit", this.stairsUpdate);
 
         this.value = "";
@@ -27,6 +27,7 @@ class MyModel extends Croquet.Model {
         this.subscribe("textspace", "submit", this.submitText);
 
         this.playerPos = "0 3 0";
+        // also share the playerposition1-9 spheres in the model
         this.subscribe("room", "playermoved", this.playerMove);
 
 
@@ -46,6 +47,7 @@ class MyModel extends Croquet.Model {
     }
 
     updatePlayerPosition(box) {
+        console.log("INSIDE OF THE ONCLICK BOX FUNCTION")
         if (box.getAttribute('id') == "box1") {
             console.log("box one was successful")
             box.setAttribute("position", "0 10 40")
@@ -71,39 +73,11 @@ class MyModel extends Croquet.Model {
             let camera = document.getElementById("cam")
             camera.setAttribute("position", stringCurrPos)
         }
-        // console.log("BOX INCOMING")
-        // console.log(box)
-        // let boxVector = box.getAttribute("position")
-        // console.log("HERE IS BOX VECTOR")
-        // console.log(boxVector)
-        // for (int i = 0; i < 4; i++) { println("go stairs"); }
-        
-        // console.log(boxVector.getAttribute("x"))
-        // console.log(boxVector.getAttribute("y"))
-        // console.log(boxVector.getAttribute("z"))
-        // console.log(boxVector['x'])
-        // console.log(boxVector['y'])
-        // console.log(boxVector['z'])
-        // console.log(boxVector["x"])
-        // console.log(boxVector["y"])
-        // console.log(boxVector["z"])
-        // console.log(boxVector["x:"])
-        // console.log(boxVector["y:"])
-        // console.log(boxVector["z:"])
-        // console.log(boxVector['x:'])
-        // console.log(boxVector['y:'])
-        // console.log(boxVector['z:'])
-        
     }
 
     stairsUpdate(data) {
-        // actually creates stairs
-        console.log('data from for input: ');
-        console.log(data);
-
         if (data != 'default') {
             this.forStairs = true; 
-
             let inputArray = data.split(' ');
             console.log("INPUT ARRAY:")
             console.log(inputArray);
@@ -114,7 +88,6 @@ class MyModel extends Croquet.Model {
             console.log(catchParen2)
             inputArray[11] = catchParen2[0]
             console.log("length of input: " + inputArray.length)
-            // let openGate = true; 
             for (let i = 0; i < inputArray.length; i++) {
                 console.log(inputArray[i])
                 if (i == 0 && inputArray[i] != 'for') {
@@ -167,48 +140,29 @@ class MyModel extends Croquet.Model {
             console.log("ok about to see if FOR STAIRS should open, here's its value"); 
             console.log(this.forStairs)
             if (this.forStairs == true) {
-                let ascene = document.getElementById('overall_scene');
                 // simple feature so that when clicked the user teleports directly on top of the block
                 // can expand to jumping function later
                 // also add in the capability to only have some of the boxes from for loop load later on
 
-                let box1 = document.createElement('a-box'); 
-                box1.setAttribute('color', 'grey');
-                box1.setAttribute('width', '5px');
-                box1.setAttribute('height', '5px');
-                box1.setAttribute('rotation', '90 0 0');
-                box1.setAttribute('id', 'box1');
-                box1.setAttribute('onclick', this.updatePlayerPosition(box1))
+                let stair0 = document.getElementById("stair0")
+                console.log(stair0)
+                stair0.setAttribute("position", "0 0 30");
 
-                let box2 = document.createElement('a-box'); 
-                box2.setAttribute('color', 'grey');
-                box2.setAttribute('width', '5px');
-                box2.setAttribute('height', '5px');
-                box2.setAttribute('rotation', '90 0 0');
-                box2.setAttribute('id', 'box2');
-                box2.setAttribute('onclick', this.updatePlayerPosition(box2))
+                let stair1 = document.getElementById("stair1")
+                console.log(stair1)
+                stair1.setAttribute("position", "0 10 40");
 
-                let box3 = document.createElement('a-box'); 
-                box3.setAttribute('color', 'grey');
-                box3.setAttribute('width', '5px');
-                box3.setAttribute('height', '5px');
-                box3.setAttribute('rotation', '90 0 0');
-                box3.setAttribute('id', 'box3');
-                box3.setAttribute('onclick', this.updatePlayerPosition(box3))
+                let stair2 = document.getElementById("stair2")
+                console.log(stair2)
+                stair2.setAttribute("position", "0 20 50");
 
-                let box4 = document.createElement('a-box'); 
-                box4.setAttribute('color', 'grey');
-                box4.setAttribute('width', '5px');
-                box4.setAttribute('height', '5px');
-                box4.setAttribute('rotation', '90 0 0');
-                box4.setAttribute('id', 'box4');
-                box4.setAttribute('onclick', this.updatePlayerPosition(box4))
+                let stair3 = document.querySelector("#stair3")
+                console.log(stair3)
+                stair3.setAttribute("position", "0 30 60");
 
-
-                ascene.appendChild(box1);  
-                ascene.appendChild(box2);   
-                ascene.appendChild(box3);  
-                ascene.appendChild(box4);  
+                let stair4 = document.getElementById("stair4") 
+                console.log(stair4)
+                stair4.setAttribute("position", "0 40 70");
             }
         }
     }
@@ -228,17 +182,33 @@ class MyModel extends Croquet.Model {
         let pL = document.getElementById(strBuilder);
         pL.setAttribute('position', this.playerPos)
 
-        let ascene = document.getElementById('overall_scene');
-        ascene.setAttribute("background", "color: " + pL.getAttribute("color")); 
+        // let ascene = document.getElementById('overall_scene');
+        // ascene.setAttribute("background", "color: " + pL.getAttribute("color")); 
     }
 
     reloadRoom() {
+        console.log("reloadRoom to the rescue!"); 
+        console.log("Current this.count is: ")
+        console.log(this.count); 
         this.count = 1201; 
         this.keepCounting = true; 
-        this.booleanGate = true;
+        this.booleanGate = false;
+        this.forStairs = false; 
         //this.color = "black";
         this.colorUpdate("black"); 
         this.resetGate(); 
+        this.resetStairs();
+        // Investigate next time it drops down to 0
+        // this.tick2()
+
+    }
+
+    resetStairs() {
+        stair0.setAttribute("position", "50000 50000 50000"); 
+        stair1.setAttribute("position", "50000 50000 50000"); 
+        stair2.setAttribute("position", "50000 50000 50000"); 
+        stair3.setAttribute("position", "50000 50000 50000"); 
+        stair4.setAttribute("position", "50000 50000 50000"); 
     }
 
     resetGate() {
@@ -257,10 +227,6 @@ class MyModel extends Croquet.Model {
     }
 
     gateUpdate(data) {
-        // actually moves gate
-        console.log('data from bool gate: ');
-        console.log(data);
-
         if (data != 'default') {
             let boolgate = document.getElementById('boolgate');
             this.booleanGate = true; 
@@ -271,7 +237,6 @@ class MyModel extends Croquet.Model {
             let catchParen2 = inputArray[3].split(')')
             inputArray[3] = catchParen2[0]
             console.log("length of input: " + inputArray.length)
-            // let openGate = true; 
             for (let i = 0; i < inputArray.length; i++) {
                 console.log(inputArray[i])
                 if (i == 0 && inputArray[i] != 'if') {
@@ -289,9 +254,6 @@ class MyModel extends Croquet.Model {
             if (inputArray.length != 11) {
                 this.booleanGate = false; 
             }
-            
-            console.log("ok about to see if bool gate should open, here's its value"); 
-            console.log(this.booleanGate)
             if (this.booleanGate == true) {
                 boolgate.setAttribute('position', '0 -10 5')
                 let booleditor = document.getElementById('boolean_editor'); 
@@ -310,7 +272,6 @@ class MyModel extends Croquet.Model {
 
     timerUpdate() {
         if (this.count === 0) {
-            // alert('time is up!')
             this.keepCounting = false; 
         }
         let minutes = Math.floor(this.count / 60); 
@@ -320,9 +281,7 @@ class MyModel extends Croquet.Model {
         actualTimer.setAttribute('value', `${minutes}: ${seconds}`);
     }
 
-    // Submits text 
     submitText(data) {
-        //this.value = text_input.value; 
         this.value = data;
         this.publish("textspace", "changed", text_input2.value);
     }
@@ -330,7 +289,6 @@ class MyModel extends Croquet.Model {
     colorUpdate(data) {
         let ascene = document.getElementById('overall_scene');
         ascene.setAttribute("background", "color: " + data); 
-        // this.publish("background", "newcolor", true_universe_color.getAttribute('value')); 
     }
 
     resetCounter() {
@@ -339,7 +297,7 @@ class MyModel extends Croquet.Model {
     }
 
     tick2() {
-        // console.log("inside of tick 2");
+        console.log("inside of tick 2");
         // console.log("Current count: " + this.count);
         this.count--; 
         this.publish("timer", "changed"); 
@@ -348,9 +306,41 @@ class MyModel extends Croquet.Model {
         }
     }
 
+    falling() {
+        let x = cam.getAttribute("position").x;
+        let z = cam.getAttribute("position").z;
+        let height = cam.getAttribute("position").y;
+        height = height - 2.5;
+        cam.setAttribute("position", x + " " + height + " " + z);
+    }
+
     tick3(data) {
         // console.log("inside of tick3")
-        // console.log(data); 
+        console.log(data); 
+        let parsedLocation = data.split(" ");
+        if (this.forStairs === false && ((parsedLocation[2] > 30) && (parsedLocation[2] < 73))) {
+            this.falling();
+        }
+        if (parsedLocation[1] < 0) {
+            this.falling();
+        }
+        if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
+            // console.log("Aghhhh! Out of bounds get back in there")
+            /* 
+
+
+
+            // NEED TO UNCOMMENT FOR USERS AND RESEARCH PURPOSES WHEN NOT TESTING
+            
+            
+
+
+
+
+
+            */
+            cam.setAttribute("position", "0 2 0");
+        }
         // console.log(this.playerPos)
         if (data != this.playerPos) {
             this.playerPos = data; 
@@ -362,13 +352,6 @@ class MyModel extends Croquet.Model {
         this.future(1000).tick3(stringCurrPos)
     }
 
-    // tick() {
-    //     this.count--;
-    //     this.publish("counter", "changed");
-    //     this.future(1000).tick();
-    // }
-
-    // my version of tick to update the textContent 
     update() {
         this.publish("textspace", "submit");
         this.future(1000).update();
