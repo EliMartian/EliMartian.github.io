@@ -27,6 +27,23 @@ class MyModel extends Croquet.Model {
         this.subscribe("textspace", "submit", this.submitText);
 
         this.playerPos = "0 3 0";
+        this.playerlocation1 = "1000 10000 20000";
+        this.playerlocation2 = "1000 10000 20000"; 
+        this.playerlocation3 = "1000 10000 20000"; 
+        this.playerlocation4 = "1000 10000 20000"; 
+        this.playerlocation5 = "1000 10000 20000";
+        this.playerlocation6 = "1000 10000 20000"; 
+        this.playerlocation7 = "1000 10000 20000"; 
+        this.playerlocation8 = "1000 10000 20000"; 
+        this.playerlocation9 = "1000 10000 20000"; 
+        // this.playerLocation2; 
+        // this.playerLocation3;
+        // this.playerLocation4; 
+        // this.playerLocation5; 
+        // this.playerLocation6; 
+        // this.playerLocation7; 
+        // this.playerLocation8; 
+        // this.playerLocation9; 
         // also share the playerposition1-9 spheres in the model
         this.subscribe("room", "playermoved", this.playerMove);
 
@@ -170,17 +187,26 @@ class MyModel extends Croquet.Model {
     playerMove() { 
         // console.log("trying to move the players pink sphere")
         // console.log("here's the data")
-        let playerSphere = document.getElementById('playerlocation');
+        console.log("Inside playerMove function")
+        // let playerSphere = document.getElementById('playerlocation');
 
-        let currPos = this.playerPos; 
-        // console.log("THIS IS THE PLAYER's POSITION")
-        // console.log(this.playerPos); 
+        let currPos = this.playerPos;
+        console.log("THIS IS THE currPos POSITION")
+        console.log(currPos); 
+        this.playerlocation2 = currPos; 
+        console.log("THIS IS THE playerlocation2 value")
+        console.log(this.playerlocation2); 
+        let ball = document.getElementById("playerlocation2")
+        ball.setAttribute("position", this.playerlocation2);
+        
 
         // console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
-        let rN = Math.floor((Math.random() * 10)); 
-        let strBuilder = 'playerlocation' + rN;
-        let pL = document.getElementById(strBuilder);
-        pL.setAttribute('position', this.playerPos)
+        // let rN = Math.floor((Math.random() * 10)); 
+        // let strBuilder = "playerlocation" + rN;
+        // console.log("Here's what strBuilder is: "); 
+        // console.log(strBuilder)
+        // let pL = document.getElementById(strBuilder);
+        // pL.setAttribute('position', this.playerPos)
 
         // let ascene = document.getElementById('overall_scene');
         // ascene.setAttribute("background", "color: " + pL.getAttribute("color")); 
@@ -297,7 +323,7 @@ class MyModel extends Croquet.Model {
     }
 
     tick2() {
-        console.log("inside of tick 2");
+        // console.log("inside of tick 2");
         // console.log("Current count: " + this.count);
         this.count--; 
         this.publish("timer", "changed"); 
@@ -316,7 +342,7 @@ class MyModel extends Croquet.Model {
 
     tick3(data) {
         // console.log("inside of tick3")
-        console.log(data); 
+        // console.log(data); 
         let parsedLocation = data.split(" ");
         if (this.forStairs === false && ((parsedLocation[2] > 30) && (parsedLocation[2] < 73))) {
             this.falling();
@@ -392,10 +418,10 @@ class MyView extends Croquet.View {
         // cam.onchange = event => this.movePlayer(); 
     //    camLoc.addEventListener('change', this.movePlayer);
 
-        // this.subscribe("room", "playermoved", this.movePlayer); 
+        // this.subscribe("room", "playermoved"); 
 
 
-        this.subscribe("timer", "changed", this.timerChange); 
+        // this.subscribe("timer", "changed", this.timerChange); 
 
         rB.onclick = event => this.resetRoom();
 
