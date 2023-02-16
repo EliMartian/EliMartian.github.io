@@ -374,6 +374,7 @@ class MyModel extends Croquet.Model {
         if (data != this.playerPos) {
             this.playerPos = data; 
             this.publish("room", "playermoved")
+            this.publish("background", "change", "pink")
             console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
         }
         let currPos = cam.getAttribute("position");
@@ -444,7 +445,7 @@ class MyView extends Croquet.View {
 
         text_input2.onclick = event => this.updateColor(); 
         // don't believe to be working VVVVVV
-        this.subscribe("background", "newcolor", this.updateColor);
+        // this.subscribe("background", "newcolor", this.updateColor);
     }
 
     movePlayer() { 
