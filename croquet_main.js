@@ -198,6 +198,7 @@ class MyModel extends Croquet.Model {
         console.log(this.playerlocation2); 
         let ball = document.getElementById("playerlocation2")
         ball.setAttribute("position", this.playerlocation2);
+        this.colorUpdate(ball.getAttribute("color"));
         
 
         // console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
