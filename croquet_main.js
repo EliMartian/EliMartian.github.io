@@ -195,11 +195,11 @@ class MyModel extends Croquet.Model {
         let currPos = this.playerPos;
         console.log("THIS IS THE currPos POSITION")
         console.log(currPos); 
-        this.playerlocation2 = currPos; 
-        console.log("THIS IS THE playerlocation2 value")
-        console.log(this.playerlocation2); 
-        let ball = document.getElementById("playerlocation2")
-        ball.setAttribute("position", this.playerlocation2);
+        this.playerlocation3 = currPos; 
+        console.log("THIS IS THE playerlocation3 value")
+        console.log(this.playerlocation3); 
+        let ball = document.getElementById("playerlocation3")
+        ball.setAttribute("position", this.playerlocation3);
         // this.colorUpdate(ball.getAttribute("color"));
         
 
