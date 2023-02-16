@@ -45,7 +45,7 @@ class MyModel extends Croquet.Model {
         // this.playerLocation8; 
         // this.playerLocation9; 
         // also share the playerposition1-9 spheres in the model
-        this.subscribe("room", "playermoved", this.playerMove);
+        
 
 
         // try having a bunch of random player spheres, then have it choose one of the random ones 
@@ -59,7 +59,9 @@ class MyModel extends Croquet.Model {
         // console.log(currPos["x"])
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
         // console.log(stringCurrPos)
+        this.subscribe("room", "playermoved", this.playerMove);
         this.future(1000).tick3(stringCurrPos);
+        
 
     }
 
@@ -372,7 +374,7 @@ class MyModel extends Croquet.Model {
         if (data != this.playerPos) {
             this.playerPos = data; 
             this.publish("room", "playermoved")
-            // console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
+            console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
         }
         let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
@@ -441,6 +443,7 @@ class MyView extends Croquet.View {
         // make sure the submit event is when the user clicks ok on the prompt
 
         text_input2.onclick = event => this.updateColor(); 
+        // don't believe to be working VVVVVV
         this.subscribe("background", "newcolor", this.updateColor);
     }
 
@@ -473,6 +476,8 @@ class MyView extends Croquet.View {
         
         // this.publish("textspace", "submit", text_input2.value);
     }
+
+    // DONT BELIEVE TO BE WORKING
 
     updateColor() {
         console.log("This true universe color:");
