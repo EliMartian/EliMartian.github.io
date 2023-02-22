@@ -219,6 +219,10 @@ class MyModel extends Croquet.Model {
         console.log("reloadRoom to the rescue!"); 
         console.log("Current this.count is: ")
         console.log(this.count); 
+        if (this.count == 0) { 
+            console.log("calling on tick2 now")
+             this.tick2()
+        }
         this.count = 1201; 
         this.keepCounting = true; 
         this.booleanGate = false;
@@ -228,7 +232,7 @@ class MyModel extends Croquet.Model {
         this.resetGate(); 
         this.resetStairs();
         // Investigate next time it drops down to 0
-        // this.tick2()
+       
 
     }
 
@@ -241,18 +245,22 @@ class MyModel extends Croquet.Model {
     }
 
     resetGate() {
+
+        // if (apples >= 250) { println("Party!") } else { println("Keep Harvesting!") }
         let boolgate = document.getElementById('boolgate');
         boolgate.setAttribute('position', '0 1 5');
         let booleditor = document.getElementById('boolean_editor'); 
         booleditor.setAttribute('position', '-0.3 4.25 4.25');
         let boolsub = document.getElementById('boolean_submit'); 
-        boolsub.setAttribute('position', '-0.3 4.5 4.25');
+        boolsub.setAttribute('position', '-0.75 0.8 4');
         let aapl = document.getElementById('apple'); 
         aapl.setAttribute('position', '2.5 2.5 4');
         let booleocheck = document.getElementById('booleo_check'); 
         booleocheck.setAttribute('position', '-1.5 2.5 4.75');
         let blackback = document.getElementById('black_background'); 
         blackback.setAttribute('position', '-1.5 2.5 4.85');
+        let booleofooleo2 = document.getElementById('bool_submit');
+        booleofooleo2.setAttribute('position', '-1.45 0.8 4.25');
     }
 
     gateUpdate(data) {
@@ -280,14 +288,17 @@ class MyModel extends Croquet.Model {
                     this.booleanGate = false; 
                 }
             }
-            if (inputArray.length != 11) {
+            if (inputArray.length != 12) {
                 this.booleanGate = false; 
+                console.log("length bool check failed")
             }
             if (this.booleanGate == true) {
                 boolgate.setAttribute('position', '0 -10 5')
                 let booleditor = document.getElementById('boolean_editor'); 
                 booleditor.setAttribute('position', '0 -10 5');
                 let boolsub = document.getElementById('boolean_submit'); 
+                let booleofooleo = document.getElementById('bool_submit'); 
+                booleofooleo.setAttribute('position', '0 -10 5');
                 boolsub.setAttribute('position', '0 -10 5');
                 let aapl = document.getElementById('apple'); 
                 aapl.setAttribute('position', '0 -10 5');
@@ -353,6 +364,9 @@ class MyModel extends Croquet.Model {
         if (parsedLocation[1] < 0) {
             this.falling();
         }
+        if (parsedLocation[2] > 91 && parsedLocation[2] < 130) { 
+            this.falling();
+        }
         if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
             // console.log("Aghhhh! Out of bounds get back in there")
             /* 
@@ -375,7 +389,11 @@ class MyModel extends Croquet.Model {
             this.playerPos = data; 
             this.publish("room", "playermoved")
             this.publish("background", "change", "pink")
-            console.log("PLAYER MOVED PLAYER MOVED! GOTTEM")
+            this.publish("timer", "changed"); 
+            this.publish("timer", "changed"); 
+            this.publish("timer", "changed"); 
+            this.publish("timer", "changed"); 
+            console.log("PLAYER MOVED PLAYER MOVED!")
         }
         let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
@@ -431,6 +449,7 @@ class MyView extends Croquet.View {
 
         
         boolean_submit.onclick = event => this.updateGate();
+        bool_submit.onclick = event => this.updateGate();
 
         for_submit.onclick = event => this.updateStairs();
         loop_submit.onclick = event => this.updateStairs();
