@@ -3,6 +3,11 @@ class MyModel extends Croquet.Model {
     init() {
         // should contain background, timers, etc. Publish changes, update views.
         // on the change we should re-render aframe.
+
+        // ANSWERS: 
+        // if (apples >= 250) { println("Party!"); } else { println("Keep Harvesting!"); }
+        // for (int i = 0; i < 4; i++) { println("go stairs"); }
+        // while (time <= 10) { time++; }
         this.count = 1200;
         this.keepCounting = true;
         this.subscribe("timer", "changed", this.timerUpdate); 
@@ -17,7 +22,15 @@ class MyModel extends Croquet.Model {
         this.forStairs = false;
         this.subscribe("stairs", "submit", this.stairsUpdate);
 
+        this.whileBridge = false;
+        this.subscribe("bridge", "submit", this.bridgeUpdate);
+        this.subscribe("drop", "update", this.bridgeDrop);
+
         this.value = "";
+
+        this.dropBridge = false; 
+
+        // this.future(1000).bridgeDrop();
 
         this.color = "black";
         this.subscribe("background", "change", this.colorUpdate); 
@@ -92,6 +105,78 @@ class MyModel extends Croquet.Model {
             let camera = document.getElementById("cam")
             camera.setAttribute("position", stringCurrPos)
         }
+    }
+
+    bridgeUpdate(data) {
+        if (data != 'default') {
+            // while (time <= 30) { time++; }
+            console.log(data); 
+            this.whileBridge = true; 
+            let inputArray = data.split(' ');
+            console.log("INPUT ARRAY:")
+            console.log(inputArray);
+            for (let i = 0; i < inputArray.length; i++) {
+                if (i == 0 && inputArray[i] != 'while') {
+
+                } else if (i == 1 && inputArray[i] != '(time') {
+                    this.whileBridge = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 2 && inputArray[i] != '<=') {
+                    this.whileBridge = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 4 && inputArray[i] != '{') {
+                    this.whileBridge = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 5 && inputArray[i] != (('time++;') || ('time = time + 1;'))) {
+                    this.whileBridge = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                } else if (i == 6 && inputArray[i] != '}') {
+                    this.whileBridge = false; 
+                    console.log("THIS INDEX OF CHECK FAILED: " + i)
+                }
+            }
+            if (this.whileBridge) {
+                mainbridge.setAttribute('position', '10 40 120');
+                console.log("time inputted"); 
+                let timeArray = inputArray[3].split(')'); 
+                let userTime = timeArray[0]; 
+                userTime = userTime * 1000; 
+                console.log("OK this was the user time passed in: " + userTime)
+
+                this.dropBridge = true; 
+                setInterval(this.bridgeDrop, userTime);
+                
+
+                // setTimeout(function() {
+                //     console.log("anon drop function fired")
+                //     this.dropBridge = true; 
+                // }, userTime)
+            }
+        }
+    }
+
+    commenceDropBridge() {
+        console.log("ok, beginning to commence drop bridge NOW!")
+        this.dropBridge = true; 
+        console.log("here's value of this.dropbridge (true):")
+        console.log(this.dropBridge)
+        // this.publish("drop", "update");
+        this.dropBridge = true; 
+    }
+
+    bridgeDrop() {
+        // console.log("here's value of this.dropbridge:")
+        // console.log(this.dropBridge)
+        // if (this.dropBridge) {
+            // console.log("inside of drop bridge!!it was true")
+            let x = mainbridge.getAttribute('position').x;
+            let z = mainbridge.getAttribute('position').z;
+            let height = mainbridge.getAttribute('position').y;
+            height = height - 5;
+            mainbridge.setAttribute("position", x + " " + height + " " + z);
+            // setTimeout(this.dropBridge, 1000);
+       // }
+        // this.future(1000).bridgeDrop();
     }
 
     stairsUpdate(data) {
@@ -227,10 +312,13 @@ class MyModel extends Croquet.Model {
         this.keepCounting = true; 
         this.booleanGate = false;
         this.forStairs = false; 
+        this.whileBridge = false;
         //this.color = "black";
         this.colorUpdate("black"); 
         this.resetGate(); 
         this.resetStairs();
+        mainbridge.setAttribute('position', '1000 -4000 120');
+        this.dropBridge = false;
         // Investigate next time it drops down to 0
        
 
@@ -246,7 +334,7 @@ class MyModel extends Croquet.Model {
 
     resetGate() {
 
-        // if (apples >= 250) { println("Party!") } else { println("Keep Harvesting!") }
+        // v
         let boolgate = document.getElementById('boolgate');
         boolgate.setAttribute('position', '0 1 5');
         let booleditor = document.getElementById('boolean_editor'); 
@@ -292,7 +380,7 @@ class MyModel extends Croquet.Model {
                 this.booleanGate = false; 
                 console.log("length bool check failed")
             }
-            if (this.booleanGate == true) {
+            if (this.booleanGate) {
                 boolgate.setAttribute('position', '0 -10 5')
                 let booleditor = document.getElementById('boolean_editor'); 
                 booleditor.setAttribute('position', '0 -10 5');
@@ -361,10 +449,10 @@ class MyModel extends Croquet.Model {
         if (this.forStairs === false && ((parsedLocation[2] > 30) && (parsedLocation[2] < 73))) {
             this.falling();
         }
-        if (parsedLocation[1] < 0) {
+        if (this.whileBridge === false && parsedLocation[2] > 91 && parsedLocation[2] < 130) { 
             this.falling();
         }
-        if (parsedLocation[2] > 91 && parsedLocation[2] < 130) { 
+        if (parsedLocation[1] < 0 || (parsedLocation[1] < 40 && this.whileBridge === false && parsedLocation[2] > 91 && parsedLocation[2] < 130)) {
             this.falling();
         }
         if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
@@ -384,15 +472,16 @@ class MyModel extends Croquet.Model {
             */
             cam.setAttribute("position", "0 2 0");
         }
+        if (this.whileBridge && this.forStairs && this.booleanGate && parsedLocation[2] > 132) {
+            console.log("Party!!! you solved all the challenges")
+           //  alert('Congrats, you escape the room!')
+           //  overallscene.setAttribute('background', "https://img1.picmix.com/output/stamp/normal/3/4/7/0/1580743_e8d41.gif")
+        }
         // console.log(this.playerPos)
         if (data != this.playerPos) {
             this.playerPos = data; 
             this.publish("room", "playermoved")
             this.publish("background", "change", "pink")
-            this.publish("timer", "changed"); 
-            this.publish("timer", "changed"); 
-            this.publish("timer", "changed"); 
-            this.publish("timer", "changed"); 
             console.log("PLAYER MOVED PLAYER MOVED!")
         }
         let currPos = cam.getAttribute("position");
@@ -431,14 +520,18 @@ class MyView extends Croquet.View {
         //  console.log("Allegedly added the event listener");
 
         // cam.onchange = event => this.movePlayer();
-        // let camLoc = cam.getAttribute("position") 
+        
         // let y_cor = camLoc["y"];
         // console.log("Cam Loc: ")
         
         // console.log(camLoc["y"]);
 
-        // cam.onchange = event => this.movePlayer(); 
+    //     cam.onchange = event => this.movePlayer(); 
+    //     let camLoc = cam.getAttribute("position") 
     //    camLoc.addEventListener('change', this.movePlayer);
+
+    // send message in model to send here (background change), capture in view
+    // send message in view that goes across session 
 
         // this.subscribe("room", "playermoved"); 
 
@@ -453,6 +546,9 @@ class MyView extends Croquet.View {
 
         for_submit.onclick = event => this.updateStairs();
         loop_submit.onclick = event => this.updateStairs();
+
+        bridge_submit.onclick = event => this.updateBridge(); 
+        bridge_editor.onclick = event => this.updateBridge(); 
         // this.subscribe("gate", "submit", this.updateGate);
 
         // countDisplay.onclick = event => this.counterReset();
@@ -477,6 +573,10 @@ class MyView extends Croquet.View {
 
     updateStairs() {
         this.publish("stairs", "submit", forLoopInput.getAttribute('value'));
+    }
+
+    updateBridge() {
+        this.publish("bridge", "submit", bridgeInput.getAttribute('value')); 
     }
 
     updateGate() {
