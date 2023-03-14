@@ -68,8 +68,6 @@ class MyModel extends Croquet.Model {
 
         // test
         let currPos = cam.getAttribute("position")
-        // console.log("Wokring currPos: ")
-        // console.log(currPos["x"])
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
         // console.log(stringCurrPos)
         this.subscribe("room", "playermoved", this.playerMove);
@@ -117,22 +115,28 @@ class MyModel extends Croquet.Model {
             console.log(inputArray);
             for (let i = 0; i < inputArray.length; i++) {
                 if (i == 0 && inputArray[i] != 'while') {
-
+                    this.whileBridge = false; 
+                    alert("Close, check near ^while")
                 } else if (i == 1 && inputArray[i] != '(time') {
                     this.whileBridge = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^time")
                 } else if (i == 2 && inputArray[i] != '<=') {
                     this.whileBridge = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^<=")
                 } else if (i == 4 && inputArray[i] != '{') {
                     this.whileBridge = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^{")
                 } else if (i == 5 && inputArray[i] != (('time++;') || ('time = time + 1;'))) {
                     this.whileBridge = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^time")
                 } else if (i == 6 && inputArray[i] != '}') {
                     this.whileBridge = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^}")
                 }
             }
             if (this.whileBridge) {
@@ -142,26 +146,28 @@ class MyModel extends Croquet.Model {
                 let userTime = timeArray[0]; 
                 userTime = userTime * 1000; 
                 console.log("OK this was the user time passed in: " + userTime)
+                let those = this; 
 
-                this.dropBridge = true; 
+                // this.dropBridge = true; 
                 setInterval(this.bridgeDrop, userTime);
                 
 
-                // setTimeout(function() {
-                //     console.log("anon drop function fired")
-                //     this.dropBridge = true; 
-                // }, userTime)
+                setTimeout(function() {
+                    console.log("anon drop function fired")
+                    those.dropBridge = true; 
+                    those.commenceDropBridge(those); 
+                }, userTime)
             }
         }
     }
 
-    commenceDropBridge() {
+    commenceDropBridge(those) {
         console.log("ok, beginning to commence drop bridge NOW!")
-        this.dropBridge = true; 
+        those.dropBridge = true; 
         console.log("here's value of this.dropbridge (true):")
-        console.log(this.dropBridge)
+        console.log(those.dropBridge)
         // this.publish("drop", "update");
-        this.dropBridge = true; 
+        setInterval(those.bridgeDrop, 1000); 
     }
 
     bridgeDrop() {
@@ -169,6 +175,24 @@ class MyModel extends Croquet.Model {
         // console.log(this.dropBridge)
         // if (this.dropBridge) {
             // console.log("inside of drop bridge!!it was true")
+            let currPos = cam.getAttribute("position")
+            let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
+            let parsedLocation = stringCurrPos.split(" ");
+            console.log("CURRENT USER POSITION IN BRIDGE DROP: ")
+            console.log(stringCurrPos); 
+            console.log("here's 2")
+            console.log(parsedLocation[2]); 
+            if (parsedLocation[2] > 91 && parsedLocation[2] < 145) { 
+                console.log("inside of bridge falling ")
+                let x = cam.getAttribute("position").x;
+                let z = cam.getAttribute("position").z;
+                let height = cam.getAttribute("position").y;
+                height = height - 2.5;
+                cam.setAttribute("position", x + " " + height + " " + z);
+            }
+
+
+
             let x = mainbridge.getAttribute('position').x;
             let z = mainbridge.getAttribute('position').z;
             let height = mainbridge.getAttribute('position').y;
@@ -197,37 +221,49 @@ class MyModel extends Croquet.Model {
                 if (i == 0 && inputArray[i] != 'for') {
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^for")
                 } else if (i == 1 && inputArray[i] != '(int') {
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
+                    alert("Close, check near ^int")
                 } else if (i == 2 && inputArray[i] != 'i') {
+                    alert("Close, check near ^loop variable")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 3 && inputArray[i] != '=') {
+                    alert("Close, check near ^=")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 4 && inputArray[i] != '0;') {
+                    alert("Close, check near ^0")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 5 && inputArray[i] != 'i') {
+                    alert("Close, check near ^loop variable")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 6 && inputArray[i] != '<') {
+                    alert("Close, check near ^<")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 7 && inputArray[i] != '4;') {
+                    alert("Close, check near ^4")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 8 && inputArray[i] != 'i++)') {
+                    alert("Close, check near ^loop variable")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 9 && inputArray[i] != '{') {
+                    alert("Close, check near ^{")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 10 && inputArray[i] != 'go') {
+                    alert("Close, check near ^go")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 11 && inputArray[i] != 'stairs') {
+                    alert("Close, check near ^stairs")
                     this.forStairs = false; 
                     console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 12 && inputArray[i] != '}') {
@@ -274,15 +310,15 @@ class MyModel extends Croquet.Model {
     playerMove() { 
         // console.log("trying to move the players pink sphere")
         // console.log("here's the data")
-        console.log("Inside playerMove function")
+        //console.log("Inside playerMove function")
         // let playerSphere = document.getElementById('playerlocation');
 
         let currPos = this.playerPos;
-        console.log("THIS IS THE currPos POSITION")
-        console.log(currPos); 
+        ///console.log("THIS IS THE currPos POSITION")
+        //console.log(currPos); 
         this.playerlocation3 = currPos; 
-        console.log("THIS IS THE playerlocation3 value")
-        console.log(this.playerlocation3); 
+       //console.log("THIS IS THE playerlocation3 value")
+       // console.log(this.playerlocation3); 
         let ball = document.getElementById("playerlocation3")
         ball.setAttribute("position", this.playerlocation3);
         // this.colorUpdate(ball.getAttribute("color"));
@@ -365,20 +401,26 @@ class MyModel extends Croquet.Model {
             for (let i = 0; i < inputArray.length; i++) {
                 console.log(inputArray[i])
                 if (i == 0 && inputArray[i] != 'if') {
+                    alert("Check near ^if")
                     this.booleanGate = false; 
                 } else if (i == 1 && inputArray[i] != 'apples') {
+                    alert("Check near ^apples")
                     this.booleanGate = false; 
                 } else if (i == 2 && inputArray[i] != '>=') {
                     this.booleanGate = false; 
+                    alert("Check near >=")
                 } else if (i == 3 && inputArray[i] != '250') {
                     this.booleanGate = false; 
+                    alert("Check near 250")
                 } else if (i == 7 && inputArray[i] != 'else') {
                     this.booleanGate = false; 
+                    alert("Check near else")
                 }
             }
             if (inputArray.length != 12) {
                 this.booleanGate = false; 
                 console.log("length bool check failed")
+                alert("Check overall length of input")
             }
             if (this.booleanGate) {
                 boolgate.setAttribute('position', '0 -10 5')
@@ -455,6 +497,9 @@ class MyModel extends Croquet.Model {
         if (parsedLocation[1] < 0 || (parsedLocation[1] < 40 && this.whileBridge === false && parsedLocation[2] > 91 && parsedLocation[2] < 130)) {
             this.falling();
         }
+        if (this.dropBridge && parsedLocation[2] > 91 && parsedLocation[2] < 130) {
+            this.falling(); 
+        }
         if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
             // console.log("Aghhhh! Out of bounds get back in there")
             /* 
@@ -473,16 +518,24 @@ class MyModel extends Croquet.Model {
             cam.setAttribute("position", "0 2 0");
         }
         if (this.whileBridge && this.forStairs && this.booleanGate && parsedLocation[2] > 132) {
-            console.log("Party!!! you solved all the challenges")
+            let clearable = setTimeout(function() {
+                alert("Congratulations!!! you solved all the challenges and escaped the room!")
+                clearable.clearTimeout(); 
+                clearable = null; 
+
+            }, 10000)
+            let colorArray = ["red", "blue", "green", "yellow", "pink", "purple", "cyan", "blue", "orange", "magenta", "turquoise"]
+            let rN = Math.floor((Math.random() * 10)); 
+            overall_scene.setAttribute('background', "color: " + colorArray[rN]); 
            //  alert('Congrats, you escape the room!')
-           //  overallscene.setAttribute('background', "https://img1.picmix.com/output/stamp/normal/3/4/7/0/1580743_e8d41.gif")
+           
         }
         // console.log(this.playerPos)
         if (data != this.playerPos) {
             this.playerPos = data; 
             this.publish("room", "playermoved")
-            this.publish("background", "change", "pink")
-            console.log("PLAYER MOVED PLAYER MOVED!")
+            // this.publish("background", "change", "pink")
+            // console.log("PLAYER MOVED PLAYER MOVED!")
         }
         let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
