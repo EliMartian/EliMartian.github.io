@@ -1,16 +1,24 @@
-class MyModel extends Croquet.Model {
+class RoomModel extends Croquet.Model {
 
     init() {
-        // should contain background, timers, etc. Publish changes, update views.
-        // on the change we should re-render aframe.
 
-        // ANSWERS: 
+        // NOTE: I would love to give you a live demo of the room's capabilities 
+        // Feel free to ask me and I will walk you through the escape room!
+
+        // ANSWERS TO CHALLENGES 1,2,3 (in respective order): 
         // if (apples >= 250) { println("Party!"); } else { println("Keep Harvesting!"); }
         // for (int i = 0; i < 4; i++) { println("go stairs"); }
         // while (time <= 10) { time++; }
+
+
+        // Initialize the state of the room, starting with the countdown at 1200 seconds 
+        // or 20 minutes to escape. 
         this.count = 1200;
         this.keepCounting = true;
+        // subscribe different elements of room to different events, call the appropriate 
+        // function once the event fires
         this.subscribe("timer", "changed", this.timerUpdate); 
+        // keep counting down every second
         this.future(1000).tick2();
 
         this.reload = false;
@@ -27,133 +35,100 @@ class MyModel extends Croquet.Model {
         this.subscribe("drop", "update", this.bridgeDrop);
 
         this.value = "";
-
         this.dropBridge = false; 
-
-        // this.future(1000).bridgeDrop();
 
         this.color = "black";
         this.subscribe("background", "change", this.colorUpdate); 
 
         this.subscribe("counter", "reset", this.resetCounter);
-        // this.future(1000).tick();
         this.subscribe("textspace", "submit", this.submitText);
 
+        // Set player location
         this.playerPos = "0 3 0";
-        this.playerlocation1 = "1000 10000 20000";
-        this.playerlocation2 = "1000 10000 20000"; 
-        this.playerlocation3 = "1000 10000 20000"; 
-        this.playerlocation4 = "1000 10000 20000"; 
-        this.playerlocation5 = "1000 10000 20000";
-        this.playerlocation6 = "1000 10000 20000"; 
-        this.playerlocation7 = "1000 10000 20000"; 
-        this.playerlocation8 = "1000 10000 20000"; 
-        this.playerlocation9 = "1000 10000 20000"; 
-        // this.playerLocation2; 
-        // this.playerLocation3;
-        // this.playerLocation4; 
-        // this.playerLocation5; 
-        // this.playerLocation6; 
-        // this.playerLocation7; 
-        // this.playerLocation8; 
-        // this.playerLocation9; 
-        // also share the playerposition1-9 spheres in the model
-        
 
-
-        // try having a bunch of random player spheres, then have it choose one of the random ones 
-        // to indicate? 
-        // believe it's an issue with the shared sphere
-        // could also just will a new sphere into existence every time the player moves. 
-
-        // test
-        let currPos = cam.getAttribute("position")
+        // Update the current position of the camera (player) to be the x, y, z
+        // keep track of the current position every second to monitor 
+        // whether the player has escaped the confines of the room and needs to be reset
+        let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
-        // console.log(stringCurrPos)
         this.subscribe("room", "playermoved", this.playerMove);
         this.future(1000).tick3(stringCurrPos);
         
 
     }
 
+    // Used to move the player position across 
+    // each of the boxes in the stair challenge
     updatePlayerPosition(box) {
-        console.log("INSIDE OF THE ONCLICK BOX FUNCTION")
         if (box.getAttribute('id') == "box1") {
-            console.log("box one was successful")
-            box.setAttribute("position", "0 10 40")
-            let stringCurrPos = "0 12 40"
-            let camera = document.getElementById("cam")
+            box.setAttribute("position", "0 10 40");
+            let stringCurrPos = "0 12 40";
+            let camera = document.getElementById("cam");
             camera.setAttribute("position", stringCurrPos)
         } else if (box.getAttribute('id') == "box2") {
-            console.log("box two was successful")
-            box.setAttribute("position", "0 20 50")
-            let stringCurrPos = "0 22 50"
-            let camera = document.getElementById("cam")
-            camera.setAttribute("position", stringCurrPos)
+            box.setAttribute("position", "0 20 50");
+            let stringCurrPos = "0 22 50";
+            let camera = document.getElementById("cam");
+            camera.setAttribute("position", stringCurrPos);
         } else if (box.getAttribute('id') == "box3") {
-            console.log("box 3 was successful")
-            box.setAttribute("position", "0 30 60")
-            let stringCurrPos = "0 32 60"
-            let camera = document.getElementById("cam")
+            box.setAttribute("position", "0 30 60");
+            let stringCurrPos = "0 32 60";
+            let camera = document.getElementById("cam");
             camera.setAttribute("position", stringCurrPos)
         } else if (box.getAttribute('id') == "box4") {
-            console.log("box 4 was successful")
-            box.setAttribute("position", "0 40 70")
-            let stringCurrPos = "0 42 70"
-            let camera = document.getElementById("cam")
-            camera.setAttribute("position", stringCurrPos)
+            box.setAttribute("position", "0 40 70");
+            let stringCurrPos = "0 42 70";
+            let camera = document.getElementById("cam");
+            camera.setAttribute("position", stringCurrPos);
         }
     }
 
+    // Updates the bridge challenge, checks the users input
+    // array to the challenge, provides helpful hints to them via alerts 
+    // as to where to check near. 
     bridgeUpdate(data) {
         if (data != 'default') {
-            // while (time <= 30) { time++; }
-            console.log(data); 
             this.whileBridge = true; 
             let inputArray = data.split(' ');
-            console.log("INPUT ARRAY:")
-            console.log(inputArray);
+            // Validate the users input to the while loop challenge
+            // to make sure they solved it correctly. 
             for (let i = 0; i < inputArray.length; i++) {
                 if (i == 0 && inputArray[i] != 'while') {
                     this.whileBridge = false; 
-                    alert("Close, check near ^while")
+                    alert("Close, check near ^while");
                 } else if (i == 1 && inputArray[i] != '(time') {
                     this.whileBridge = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^time")
+                    alert("Close, check near ^time");
                 } else if (i == 2 && inputArray[i] != '<=') {
                     this.whileBridge = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^<=")
+                    alert("Close, check near ^<=");
                 } else if (i == 4 && inputArray[i] != '{') {
                     this.whileBridge = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^{")
+                    alert("Close, check near ^{");
                 } else if (i == 5 && inputArray[i] != (('time++;') || ('time = time + 1;'))) {
                     this.whileBridge = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^time")
+                    alert("Close, check near ^time");
                 } else if (i == 6 && inputArray[i] != '}') {
                     this.whileBridge = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^}")
+                    alert("Close, check near ^}");
                 }
             }
+            // If the user does solve the while-loop bridge challenge, proceed
+            // and update the bridge as necessary
             if (this.whileBridge) {
                 mainbridge.setAttribute('position', '10 40 120');
-                console.log("time inputted"); 
+                // grab the time that the user passed in to keep the bridge 
+                // up for before it drops into space
                 let timeArray = inputArray[3].split(')'); 
                 let userTime = timeArray[0]; 
                 userTime = userTime * 1000; 
-                console.log("OK this was the user time passed in: " + userTime)
                 let those = this; 
 
-                // this.dropBridge = true; 
                 setInterval(this.bridgeDrop, userTime);
                 
-
                 setTimeout(function() {
-                    console.log("anon drop function fired")
+                    // fired once the time the user passed in is up
+                    // then the bridge can no longer be crossed
                     those.dropBridge = true; 
                     those.commenceDropBridge(those); 
                 }, userTime)
@@ -161,205 +136,144 @@ class MyModel extends Croquet.Model {
         }
     }
 
+    // drop the bridge once the time is up for the user to cross
     commenceDropBridge(those) {
-        console.log("ok, beginning to commence drop bridge NOW!")
         those.dropBridge = true; 
-        console.log("here's value of this.dropbridge (true):")
-        console.log(those.dropBridge)
-        // this.publish("drop", "update");
         setInterval(those.bridgeDrop, 1000); 
     }
 
+    // Handles the dropping of the user if they try to cross
+    // the bridge when the bridge is not active, 
+    // it will drop them into space (try this out in game play!)
     bridgeDrop() {
-        // console.log("here's value of this.dropbridge:")
-        // console.log(this.dropBridge)
-        // if (this.dropBridge) {
-            // console.log("inside of drop bridge!!it was true")
-            let currPos = cam.getAttribute("position")
-            let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
-            let parsedLocation = stringCurrPos.split(" ");
-            console.log("CURRENT USER POSITION IN BRIDGE DROP: ")
-            console.log(stringCurrPos); 
-            console.log("here's 2")
-            console.log(parsedLocation[2]); 
-            if (parsedLocation[2] > 91 && parsedLocation[2] < 145) { 
-                console.log("inside of bridge falling ")
-                let x = cam.getAttribute("position").x;
-                let z = cam.getAttribute("position").z;
-                let height = cam.getAttribute("position").y;
-                height = height - 2.5;
-                cam.setAttribute("position", x + " " + height + " " + z);
-            }
+        let currPos = cam.getAttribute("position");
+        let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
+        let parsedLocation = stringCurrPos.split(" ");
+        if (parsedLocation[2] > 91 && parsedLocation[2] < 145) { 
+            let x = cam.getAttribute("position").x;
+            let z = cam.getAttribute("position").z;
+            let height = cam.getAttribute("position").y;
+            height = height - 2.5;
+            cam.setAttribute("position", x + " " + height + " " + z);
+        }
 
-
-
-            let x = mainbridge.getAttribute('position').x;
-            let z = mainbridge.getAttribute('position').z;
-            let height = mainbridge.getAttribute('position').y;
-            height = height - 5;
-            mainbridge.setAttribute("position", x + " " + height + " " + z);
-            // setTimeout(this.dropBridge, 1000);
-       // }
-        // this.future(1000).bridgeDrop();
+        let x = mainbridge.getAttribute('position').x;
+        let z = mainbridge.getAttribute('position').z;
+        let height = mainbridge.getAttribute('position').y;
+        height = height - 5;
+        mainbridge.setAttribute("position", x + " " + height + " " + z);
     }
 
+    // Used in the stairs challenge, validates the users 
+    // input to the challenge, if they do not solve it, this
+    // will give them hints in the console. 
     stairsUpdate(data) {
         if (data != 'default') {
             this.forStairs = true; 
             let inputArray = data.split(' ');
-            console.log("INPUT ARRAY:")
-            console.log(inputArray);
-            let catchParen1 = inputArray[10].split('println("')
-            console.log(catchParen1[1])
+            let catchParen1 = inputArray[10].split('println("');
             inputArray[10] = catchParen1[1];
-            let catchParen2 = inputArray[11].split('");')
-            console.log(catchParen2)
-            inputArray[11] = catchParen2[0]
-            console.log("length of input: " + inputArray.length)
+            let catchParen2 = inputArray[11].split('");');
+            inputArray[11] = catchParen2[0];
+            // Validate the user's input to the stairs challenge
             for (let i = 0; i < inputArray.length; i++) {
-                console.log(inputArray[i])
                 if (i == 0 && inputArray[i] != 'for') {
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^for")
+                    alert("Close, check near ^for");
                 } else if (i == 1 && inputArray[i] != '(int') {
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
-                    alert("Close, check near ^int")
+                    alert("Close, check near ^int");
                 } else if (i == 2 && inputArray[i] != 'i') {
-                    alert("Close, check near ^loop variable")
+                    alert("Close, check near ^loop variable");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 3 && inputArray[i] != '=') {
-                    alert("Close, check near ^=")
+                    alert("Close, check near ^=");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 4 && inputArray[i] != '0;') {
-                    alert("Close, check near ^0")
+                    alert("Close, check near ^0");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 5 && inputArray[i] != 'i') {
-                    alert("Close, check near ^loop variable")
+                    alert("Close, check near ^loop variable");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 6 && inputArray[i] != '<') {
-                    alert("Close, check near ^<")
+                    alert("Close, check near ^<");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 7 && inputArray[i] != '4;') {
-                    alert("Close, check near ^4")
+                    alert("Close, check near ^4");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 8 && inputArray[i] != 'i++)') {
-                    alert("Close, check near ^loop variable")
+                    alert("Close, check near ^loop variable");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 9 && inputArray[i] != '{') {
-                    alert("Close, check near ^{")
+                    alert("Close, check near ^{");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 10 && inputArray[i] != 'go') {
-                    alert("Close, check near ^go")
+                    alert("Close, check near ^go");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 11 && inputArray[i] != 'stairs') {
-                    alert("Close, check near ^stairs")
+                    alert("Close, check near ^stairs");
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 } else if (i == 12 && inputArray[i] != '}') {
                     this.forStairs = false; 
-                    console.log("THIS INDEX OF CHECK FAILED: " + i)
                 }
             }
-            // for (int i = 0; i < 4; i++) { println("go stairs"); }
+            // Check for wrong number of input elements from the user
             if (inputArray.length != 13) {
                 this.forStairs = false; 
-                console.log("THIS INDEX OF CHECK FAILED: length check")
+                alert("Close, check the length of response");
             }
             
-            console.log("ok about to see if FOR STAIRS should open, here's its value"); 
-            console.log(this.forStairs)
+            
+            // If the user did solve the Stairs challenge, update the stairs elements position
             if (this.forStairs == true) {
-                // simple feature so that when clicked the user teleports directly on top of the block
-                // can expand to jumping function later
-                // also add in the capability to only have some of the boxes from for loop load later on
-
-                let stair0 = document.getElementById("stair0")
-                console.log(stair0)
+                let stair0 = document.getElementById("stair0");
                 stair0.setAttribute("position", "0 0 30");
 
-                let stair1 = document.getElementById("stair1")
-                console.log(stair1)
+                let stair1 = document.getElementById("stair1");
                 stair1.setAttribute("position", "0 10 40");
 
-                let stair2 = document.getElementById("stair2")
-                console.log(stair2)
+                let stair2 = document.getElementById("stair2");
                 stair2.setAttribute("position", "0 20 50");
 
-                let stair3 = document.querySelector("#stair3")
-                console.log(stair3)
+                let stair3 = document.querySelector("#stair3");
                 stair3.setAttribute("position", "0 30 60");
 
-                let stair4 = document.getElementById("stair4") 
-                console.log(stair4)
+                let stair4 = document.getElementById("stair4");
                 stair4.setAttribute("position", "0 40 70");
             }
         }
     }
 
+    // Update the player's colored sphere
+    // icon that represents them in the VR escape room to other players
+    // to show their location moving
     playerMove() { 
-        // console.log("trying to move the players pink sphere")
-        // console.log("here's the data")
-        //console.log("Inside playerMove function")
-        // let playerSphere = document.getElementById('playerlocation');
-
         let currPos = this.playerPos;
-        ///console.log("THIS IS THE currPos POSITION")
-        //console.log(currPos); 
         this.playerlocation3 = currPos; 
-       //console.log("THIS IS THE playerlocation3 value")
-       // console.log(this.playerlocation3); 
-        let ball = document.getElementById("playerlocation3")
+        let ball = document.getElementById("playerlocation3");
         ball.setAttribute("position", this.playerlocation3);
-        // this.colorUpdate(ball.getAttribute("color"));
-        
-
-        // console.log("ok, we are now moving that pink sphere playerlocation to the following location: "); 
-        // let rN = Math.floor((Math.random() * 10)); 
-        // let strBuilder = "playerlocation" + rN;
-        // console.log("Here's what strBuilder is: "); 
-        // console.log(strBuilder)
-        // let pL = document.getElementById(strBuilder);
-        // pL.setAttribute('position', this.playerPos)
-
-        // let ascene = document.getElementById('overall_scene');
-        // ascene.setAttribute("background", "color: " + pL.getAttribute("color")); 
     }
 
+    // When the user clicks to reload the room, 
+    // reset the room back to its default settings 
     reloadRoom() {
-        console.log("reloadRoom to the rescue!"); 
-        console.log("Current this.count is: ")
-        console.log(this.count); 
+        // If time is 0, call the tick2 function to keep ticking and counting down
         if (this.count == 0) { 
-            console.log("calling on tick2 now")
-             this.tick2()
+             this.tick2();
         }
         this.count = 1201; 
         this.keepCounting = true; 
         this.booleanGate = false;
         this.forStairs = false; 
         this.whileBridge = false;
-        //this.color = "black";
         this.colorUpdate("black"); 
         this.resetGate(); 
         this.resetStairs();
         mainbridge.setAttribute('position', '1000 -4000 120');
-        this.dropBridge = false;
-        // Investigate next time it drops down to 0
-       
-
+        this.dropBridge = false;       
     }
 
+    // Put all stairs back in their default location (In a galaxy far far away....)
     resetStairs() {
         stair0.setAttribute("position", "50000 50000 50000"); 
         stair1.setAttribute("position", "50000 50000 50000"); 
@@ -368,9 +282,8 @@ class MyModel extends Croquet.Model {
         stair4.setAttribute("position", "50000 50000 50000"); 
     }
 
+    // Move the gate back to in front of the first portion of the room
     resetGate() {
-
-        // v
         let boolgate = document.getElementById('boolgate');
         boolgate.setAttribute('position', '0 1 5');
         let booleditor = document.getElementById('boolean_editor'); 
@@ -387,43 +300,46 @@ class MyModel extends Croquet.Model {
         booleofooleo2.setAttribute('position', '-1.45 0.8 4.25');
     }
 
+    // Check to see if the user solves the first portion 
+    // of the escape room, if they do, then update the room. 
+    // Otherwise, show them in the console where they should 
+    // debug to figure out what is wrong with their input
     gateUpdate(data) {
         if (data != 'default') {
             let boolgate = document.getElementById('boolgate');
             this.booleanGate = true; 
 
             let inputArray = data.split(' ');
-            let catchParen1 = inputArray[1].split('(')
+            let catchParen1 = inputArray[1].split('(');
             inputArray[1] = catchParen1[1];
-            let catchParen2 = inputArray[3].split(')')
-            inputArray[3] = catchParen2[0]
-            console.log("length of input: " + inputArray.length)
+            let catchParen2 = inputArray[3].split(')');
+            inputArray[3] = catchParen2[0];
             for (let i = 0; i < inputArray.length; i++) {
-                console.log(inputArray[i])
                 if (i == 0 && inputArray[i] != 'if') {
-                    alert("Check near ^if")
+                    alert("Check near ^if");
                     this.booleanGate = false; 
                 } else if (i == 1 && inputArray[i] != 'apples') {
-                    alert("Check near ^apples")
+                    alert("Check near ^apples");
                     this.booleanGate = false; 
                 } else if (i == 2 && inputArray[i] != '>=') {
                     this.booleanGate = false; 
-                    alert("Check near >=")
+                    alert("Check near >=");
                 } else if (i == 3 && inputArray[i] != '250') {
                     this.booleanGate = false; 
-                    alert("Check near 250")
+                    alert("Check near 250");
                 } else if (i == 7 && inputArray[i] != 'else') {
-                    this.booleanGate = false; 
-                    alert("Check near else")
+                    this.booleanGate = false;
+                    alert("Check near else");
                 }
             }
             if (inputArray.length != 12) {
                 this.booleanGate = false; 
-                console.log("length bool check failed")
-                alert("Check overall length of input")
+                alert("Check overall length of input");
             }
+            // update gate challenge to be removed if 
+            // the players have solved the boolean gate challenge
             if (this.booleanGate) {
-                boolgate.setAttribute('position', '0 -10 5')
+                boolgate.setAttribute('position', '0 -10 5');
                 let booleditor = document.getElementById('boolean_editor'); 
                 booleditor.setAttribute('position', '0 -10 5');
                 let boolsub = document.getElementById('boolean_submit'); 
@@ -440,6 +356,7 @@ class MyModel extends Croquet.Model {
         }
     }
 
+    // Display the visual result of the timer in the room 
     timerUpdate() {
         if (this.count === 0) {
             this.keepCounting = false; 
@@ -451,11 +368,14 @@ class MyModel extends Croquet.Model {
         actualTimer.setAttribute('value', `${minutes}: ${seconds}`);
     }
 
+    // Called when the user submits a text entry for processing
     submitText(data) {
         this.value = data;
         this.publish("textspace", "changed", text_input2.value);
     }
  
+    // Updates the background color of the universe when an event
+    // causes the color to change (ie escaping the room)
     colorUpdate(data) {
         let ascene = document.getElementById('overall_scene');
         ascene.setAttribute("background", "color: " + data); 
@@ -466,9 +386,10 @@ class MyModel extends Croquet.Model {
         this.publish("counter", "changed");
     }
 
+    // Decrements the timer down to 0, check to see
+    // if it should continue counting first before continuing to 
+    // recurively call itself
     tick2() {
-        // console.log("inside of tick 2");
-        // console.log("Current count: " + this.count);
         this.count--; 
         this.publish("timer", "changed"); 
         if (this.keepCounting) {
@@ -476,6 +397,8 @@ class MyModel extends Croquet.Model {
         }
     }
 
+    // Called to make the player "fall"
+    // into empty space. 
     falling() {
         let x = cam.getAttribute("position").x;
         let z = cam.getAttribute("position").z;
@@ -484,10 +407,14 @@ class MyModel extends Croquet.Model {
         cam.setAttribute("position", x + " " + height + " " + z);
     }
 
+    // Called every second to check to see if the player 
+    // has escaped the regular room to some place they should not be, or should be falling. 
+    // Also checks to see if the player has escaped the room, ie solved all challenges and is
+    // standing on the escape platform
     tick3(data) {
-        // console.log("inside of tick3")
-        // console.log(data); 
         let parsedLocation = data.split(" ");
+        // Set falling locations based on players solving challenges and their physical location in the room
+        // (ie they are not supposed to be in part of the room they have not unlocked yet)
         if (this.forStairs === false && ((parsedLocation[2] > 30) && (parsedLocation[2] < 73))) {
             this.falling();
         }
@@ -500,46 +427,33 @@ class MyModel extends Croquet.Model {
         if (this.dropBridge && parsedLocation[2] > 91 && parsedLocation[2] < 130) {
             this.falling(); 
         }
-        if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
-            // console.log("Aghhhh! Out of bounds get back in there")
-            /* 
-
-
-
-            // NEED TO UNCOMMENT FOR USERS AND RESEARCH PURPOSES WHEN NOT TESTING
-            
-            
-
-
-
-
-
-            */
+        if ((parsedLocation[0] > 10 && parsedLocation[2] < 30) || (parsedLocation[0] < -10 && parsedLocation[2] < 30) || 
+              (parsedLocation[2] < -8 && parsedLocation[2] < 30) || (parsedLocation[2] > 5 && this.booleanGate === false)) {
             cam.setAttribute("position", "0 2 0");
         }
+        // if the user has solved all challenges and is standing on the winning platform
         if (this.whileBridge && this.forStairs && this.booleanGate && parsedLocation[2] > 132) {
             let clearable = setTimeout(function() {
-                alert("Congratulations!!! you solved all the challenges and escaped the room!")
+                // Party time for the room
+                alert("Congratulations!!! you solved all the challenges and escaped the room!");
                 clearable.clearTimeout(); 
                 clearable = null; 
 
             }, 10000)
-            let colorArray = ["red", "blue", "green", "yellow", "pink", "purple", "cyan", "blue", "orange", "magenta", "turquoise"]
+            let colorArray = ["red", "blue", "green", "yellow", "pink", "purple", "cyan", "blue", "orange", "magenta", "turquoise"];
             let rN = Math.floor((Math.random() * 10)); 
+            // Initialize rainbow colors!!!
             overall_scene.setAttribute('background', "color: " + colorArray[rN]); 
-           //  alert('Congrats, you escape the room!')
-           
         }
-        // console.log(this.playerPos)
+        // Keeps track of player movement in the room 
         if (data != this.playerPos) {
-            this.playerPos = data; 
-            this.publish("room", "playermoved")
-            // this.publish("background", "change", "pink")
-            // console.log("PLAYER MOVED PLAYER MOVED!")
+            // update the player position to be the current data if out of date
+            this.playerPos = data;
+            this.publish("room", "playermoved");
         }
         let currPos = cam.getAttribute("position");
         let stringCurrPos = currPos["x"] + " " + currPos["y"] + " " + currPos["z"];
-        this.future(1000).tick3(stringCurrPos)
+        this.future(1000).tick3(stringCurrPos);
     }
 
     update() {
@@ -549,7 +463,7 @@ class MyModel extends Croquet.Model {
 
 }
 
-MyModel.register("MyModel");
+RoomModel.register("RoomModel");
 
 class MyView extends Croquet.View {
 
@@ -557,67 +471,15 @@ class MyView extends Croquet.View {
         super(model);
         this.model = model;
 
-
-        // textBox2.onclick = event => this.textSubmit();
-        // this.subscribe("textspace", "changed", this.textChanged);
-        // this.textChanged();
-
-        
-        // cam.addEventListener('componentchanged', function (evt) {
-        //     console.log("inside thec check")
-        //     if (evt.name === 'position') {
-        //         console.log("player moved")
-        //       // console.log('Entity has moved from', evt.oldData, 'to', evt.newData, '!');
-        //     }
-        //  });
-        //  console.log("Allegedly added the event listener");
-
-        // cam.onchange = event => this.movePlayer();
-        
-        // let y_cor = camLoc["y"];
-        // console.log("Cam Loc: ")
-        
-        // console.log(camLoc["y"]);
-
-    //     cam.onchange = event => this.movePlayer(); 
-    //     let camLoc = cam.getAttribute("position") 
-    //    camLoc.addEventListener('change', this.movePlayer);
-
-    // send message in model to send here (background change), capture in view
-    // send message in view that goes across session 
-
-        // this.subscribe("room", "playermoved"); 
-
-
-        // this.subscribe("timer", "changed", this.timerChange); 
-
+        // Create click event listeners for updating room
         rB.onclick = event => this.resetRoom();
-
-        
         boolean_submit.onclick = event => this.updateGate();
         bool_submit.onclick = event => this.updateGate();
-
         for_submit.onclick = event => this.updateStairs();
         loop_submit.onclick = event => this.updateStairs();
-
         bridge_submit.onclick = event => this.updateBridge(); 
         bridge_editor.onclick = event => this.updateBridge(); 
-        // this.subscribe("gate", "submit", this.updateGate);
-
-        // countDisplay.onclick = event => this.counterReset();
-        // this.subscribe("counter", "changed", this.counterChanged);
-        // this.counterChanged();
-
-        // try console logging
-        // make sure the submit event is when the user clicks ok on the prompt
-
         text_input2.onclick = event => this.updateColor(); 
-        // don't believe to be working VVVVVV
-        // this.subscribe("background", "newcolor", this.updateColor);
-    }
-
-    movePlayer() { 
-        console.log("Finally got to Attempted to move the player")
     }
 
     resetRoom() {
@@ -633,49 +495,20 @@ class MyView extends Croquet.View {
     }
 
     updateGate() {
-        // have a reference to their input, by setting an a-text far away with that value
-        console.log("This is the input from boolean gate: "); 
-        console.log(boolGateInput.getAttribute('value'));
         this.publish("gate", "submit", boolGateInput.getAttribute('value'));
     }
 
-    timerChange() {
-        // this.publish("timer", "changed", package_timer.getAttribute('value')); 
-        // package_timer.textContent = this.model.count; 
-    }
-
-    textSubmit() {
-        // don't update model externally 
-        
-        // this.publish("textspace", "submit", text_input2.value);
-    }
-
-    // DONT BELIEVE TO BE WORKING
-
     updateColor() {
-        console.log("This true universe color:");
-        console.log(true_universe_color.getAttribute('value'));
         this.publish("background", "change", true_universe_color.getAttribute('value')); 
     }
 
-    // textChanged() {
-    //     text_input2.textContent = this.model.value; 
-    // }
-
-    // counterReset() {
-    //     this.publish("counter", "reset");
-    // }
-
-    // counterChanged() {
-    //     countDisplay.textContent = this.model.count;
-    // }
-
 }
 
+// Croquet Info
 Croquet.Session.join({
   appId: "edu.uw.eamart34.microverse",
   apiKey: "1y1miau7hBNEcNrFi12jufjfzqsA5jexyKc1L32nx",
-  name: "hello_world",
+  name: "vr_escape_room",
   password: "none",
-  model: MyModel,
+  model: RoomModel,
   view: MyView});
