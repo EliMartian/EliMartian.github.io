@@ -8,8 +8,9 @@ virtual reality escape room to teach high school students computer science funda
 while studying at the University of Washington during my undergrad. This work is entirely my 
 own, while I do give credit and acknowledge the role of my mentor PhD Edward Misback, and chair
 Professor Steve Tanimoto (tanimoto@uw.edu). With their supervision and guidance, this represents
-the final product of a working VR escape room visitable using the link https://elimartian.github.io
-This link is best opened on desktop, and not mobile devices, although it does work for mobile devices. 
+the final product of a working VR escape room visitable using the link [https://elimartian.github.io](https://elimartian.github.io/virtual-reality-escape-room/)
+This link is best opened on desktop, and not mobile devices, although it does work for mobile devices. You may have to refresh a few times on your browser 
+to get the room to sync correctly.
 
 ## Configuration Settings
 
