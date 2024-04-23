@@ -1,4 +1,5 @@
-# UW Seattle - Undergrad Research Assistant Winter '22 - Spring '23 VR Escape Room
+# UW Seattle - Undergrad Research Assistant Escape Room
+## Winter 2022 - Spring 2023 VR Escape Room
 
 ## Other information
 
