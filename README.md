@@ -1,4 +1,4 @@
-# Project Title: Winter '22 - Spring '23 VR Escape Room Research 
+# UW Seattle - Undergrad Research Assistant Winter '22 - Spring '23 VR Escape Room
 
 ## Other information
 
